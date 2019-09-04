@@ -11,9 +11,9 @@ import com.globant.training.app.pages.BasePage;
 
 public class FlightInformationPage extends BasePage {
 
-	private final String TOTAL_PRICE = "packagePriceTotal";
+	private final String TOTAL_PRICE = ".desktopView .packagePriceTotal";
 	private final String FLIGHT_INFO = "flightSummary";
-	private final String PRICE_GUARANTEE = "priceGuarantee";
+	private final String PRICE_GUARANTEE = ".desktopView .priceGuarantee";
 	private final String CONTINUE_BOOKING_BTN = "bookButton";
 	//private final String DEPARTURE_INFO = "div.OD0";
 	//private final String RETURN_INFO = "div.OD1";
@@ -22,23 +22,18 @@ public class FlightInformationPage extends BasePage {
 		super(pDriver);
 	}
 	
-	@FindBy(className = TOTAL_PRICE)
+	@FindBy(css = TOTAL_PRICE)
 	private WebElement totalPrice;
 	
 	@FindBy(className = FLIGHT_INFO)
 	private WebElement flightInfo;
 	
-	@FindBy(className= PRICE_GUARANTEE)
+	@FindBy(css= PRICE_GUARANTEE)
 	private WebElement priceGuarantee;
 	
 	@FindBy(id= CONTINUE_BOOKING_BTN)
 	private WebElement continueBookingBtn;
 	
-	/*@FindBy(className = DEPARTURE_INFO)
-	private WebElement departureInfo;
-	
-	@FindBy(className = RETURN_INFO)
-	private WebElement returnInfo;*/
 	
 	public boolean getTotalPricePresent() {
 		

@@ -71,7 +71,6 @@ public class SeleniumBasicTest extends BaseTest {
 		
 	/* 5. In the new page (Select your departure to Las Vegas), select the third result. */ 
 		
-		
 		FlightInformationPage information = search.setReturnFlight(3);
 	
 	/* Verify trip details in the new page, by: 

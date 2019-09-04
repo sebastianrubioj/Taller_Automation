@@ -202,9 +202,13 @@ public class FlightSearchPage extends BasePage {
 			WebElement fare = getDriver().findElement(By.cssSelector(buttonSelector));
 			fare.click();
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
-		
+			WebElement searchTittle = getDriver().findElement(By.className("title-city-text"));
+		if(!searchTittle.getText().contains("return")) {
+			selectThisFareBtn.click();
+		}
 				
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
@@ -224,22 +228,20 @@ public class FlightSearchPage extends BasePage {
 			fare.click();
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
+			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
 
 		} else {
 
 			flightSelectBtn.get(fareNumber - 1).click();
-			if (getDriver().findElement(By.xpath(selectFareBtn)).isDisplayed()) {
-				getDriver().findElement(By.xpath(selectFareBtn)).click();
-			}
 
 		}
 
-		WebElement modal = getDriver().findElement(By.id("xSellHotelForcedChoice"));
-
-		if (modal.isDisplayed()) {
-			getDriver().switchTo().frame(modal);
+		boolean modalPresent = getDriver().findElements(By.id("xSellHotelForcedChoice")).size() != 0;
+		/*In here we handled if the add Hotel message is Displayed or not*/
+		if (modalPresent) {
 			WebElement noThanks = getDriver().findElement(By.id("forcedChoiceNoThanks"));
+			getWait().until(ExpectedConditions.elementToBeClickable(noThanks));
 			noThanks.click();
 		} else {
 			System.out.println("Modal Doesn't Displayed");

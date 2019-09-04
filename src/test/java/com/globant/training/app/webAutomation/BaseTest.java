@@ -36,10 +36,10 @@ public class BaseTest {
     }
 
    //@AfterTest(alwaysRun = true)
- /*   @AfterMethod (alwaysRun = true)
+  @AfterMethod (alwaysRun = true)
     public void afterSuite(){
         myDriver.getDriver().quit();
-    }*/
+    }
     
     public HomePage getHomePage() {
     	return this.homePage;
