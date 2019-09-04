@@ -204,9 +204,10 @@ public class FlightSearchPage extends BasePage {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			selectThisFareBtn.click();
 			WebElement searchTittle = getDriver().findElement(By.className("title-city-text"));
+			selectThisFareBtn.click();
 		if(!searchTittle.getText().contains("return")) {
+			//getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
 		}
 				
