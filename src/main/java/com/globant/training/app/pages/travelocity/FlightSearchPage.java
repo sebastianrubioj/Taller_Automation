@@ -245,7 +245,7 @@ public class FlightSearchPage extends BasePage {
 			getWait().until(ExpectedConditions.elementToBeClickable(noThanks));
 			noThanks.click();
 		} else {
-			System.out.println("Modal Doesn't Displayed");
+			System.out.println("Modal Wasn't Displayed");
 		}
 
 		return new FlightInformationPage(this.getDriver());

@@ -67,7 +67,7 @@ public class SeleniumBasicTest extends BaseTest {
 		Assert.assertTrue(search.getFaresOrderByDuration(), "The fares are not ordered by the Duration (shortest) as expected");
 		
 	/* 4. In the page (Select your departure to Los Angeles), select the first result. */ 
-		search.setDepartureFlight(3);
+		search.setDepartureFlight(1);
 		
 	/* 5. In the new page (Select your departure to Las Vegas), select the third result. */ 
 		
