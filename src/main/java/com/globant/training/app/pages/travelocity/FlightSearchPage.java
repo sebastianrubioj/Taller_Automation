@@ -189,13 +189,10 @@ public class FlightSearchPage extends BasePage {
 
 	public void setDepartureFlight(int fareNumber) {
 
-		//getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
 				+ fareNumber + "']";
-		//String selectFareBtn = "button[data-is-basic-economy-tray-button='true'] span[class='visuallyhidden']";
 		String selectFareBtn = "//li[3]/div[2]/div//button";
-		//String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
-
+		
 		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
 
 		if (farePresent) {

@@ -15,6 +15,7 @@ import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
 import com.globant.training.app.pages.travelocity.HomePage;
+import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 
 public class BaseTest {
@@ -23,6 +24,7 @@ public class BaseTest {
     private FlightSearchPage selectPage;
     private FlightInformationPage informationPage;
     private FlightCheckoutPage checkoutPage;
+    private HotelSearchPage hotelSearchPage;
     
   
     @BeforeMethod (alwaysRun = true)
@@ -30,7 +32,6 @@ public class BaseTest {
     public void beforeSuite(String browser){
         myDriver = new MyDriver(browser);
         homePage = new HomePage(myDriver.getDriver());
-        
     }
 
   @AfterMethod (alwaysRun = true)
@@ -54,4 +55,7 @@ public class BaseTest {
     	return this.checkoutPage;
     }
     
+    public HotelSearchPage getHotelSearchPage() {
+    	return this.hotelSearchPage;
+    }
 }

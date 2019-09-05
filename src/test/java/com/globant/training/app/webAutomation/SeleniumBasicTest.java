@@ -10,6 +10,7 @@ import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
 import com.globant.training.app.pages.travelocity.HomePage;
+import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 
 public class SeleniumBasicTest extends BaseTest {
@@ -108,7 +109,7 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setFlightHotelAndCar();
 		
 		String departureCity = "LAS";
-		String returnCity = "LAX";
+		String returnCity = "Los Angeles";
 		
 		
 		home.setDeparturePackage(departureCity);
@@ -116,7 +117,12 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setDeparturePackageDate();
 		home.setReturnPackageDate();
 		
-		FlightSearchPage search = home.setSearchBtn();
+		HotelSearchPage search = home.setSearchBtn();
+		
+		System.out.println(search.getOriginCity());
+		Assert.assertTrue(search.getOriginCity().contains("Las Vegas"), "The city of departure should be Las Vegas but is: " + search.getOriginCity());
+		Assert.assertTrue(search.getDestinationCity().contains("Los Angeles"), "The city of departure should be Las Vegas but is: " + search.getDestinationCity());
+		Assert.assertTrue(search.getHeaderMessage().contains("Start by choosing your hotel"), "The Header Message is not the expected one, is showing: " + search.getHeaderMessage() + ". And should show: Start by choosing your hotel");
 		
 	}
 	

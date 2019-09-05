@@ -148,6 +148,7 @@ public class HomePage extends BasePage{
 	
 	public void setDeparturePackage(String departureFlight) {
 		getWait().until(ExpectedConditions.visibilityOf(departurePackageInput));
+		getWait().until(ExpectedConditions.elementToBeClickable(departurePackageInput));
 		departurePackageInput.sendKeys(departureFlight);
 		departurePackageInput.sendKeys(Keys.SPACE);
 		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
@@ -156,6 +157,7 @@ public class HomePage extends BasePage{
 	
 	public void setReturnPackage(String returnFlight) {
 		getWait().until(ExpectedConditions.visibilityOf(returnPackageInput));
+		getWait().until(ExpectedConditions.elementToBeClickable(returnPackageInput));
 		returnPackageInput.sendKeys(returnFlight);
 		returnPackageInput.sendKeys(Keys.SPACE);
 		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
@@ -176,9 +178,9 @@ public class HomePage extends BasePage{
 		datePickerDay18.click();
 	}
 	
-	public FlightSearchPage setSearchBtn() {
+	public HotelSearchPage setSearchBtn() {
 		searchButton.click();
-		return new FlightSearchPage(this.getDriver());
+		return new HotelSearchPage(this.getDriver());
 	}
 	
 }
