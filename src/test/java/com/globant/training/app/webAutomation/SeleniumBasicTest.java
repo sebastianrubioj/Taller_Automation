@@ -111,12 +111,12 @@ public class SeleniumBasicTest extends BaseTest {
 		String returnCity = "LAX";
 		
 		
+		home.setDeparturePackage(departureCity);
+		home.setReturnPackage(returnCity);
+		home.setDeparturePackageDate();
+		home.setReturnPackageDate();
 		
-		home.setDepartureFlight(departureCity);
-		home.setArrivalFlight(returnCity);
-		home.setDepartureDate();
-		home.setReturnDate();
-		
+		FlightSearchPage search = home.setSearchBtn();
 		
 	}
 	

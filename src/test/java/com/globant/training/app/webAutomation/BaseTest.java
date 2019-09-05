@@ -24,18 +24,15 @@ public class BaseTest {
     private FlightInformationPage informationPage;
     private FlightCheckoutPage checkoutPage;
     
-   // @BeforeTest(alwaysRun = true)
+  
     @BeforeMethod (alwaysRun = true)
     @Parameters({"browser"})
     public void beforeSuite(String browser){
         myDriver = new MyDriver(browser);
         homePage = new HomePage(myDriver.getDriver());
-       /* selectPage = new FlightSearchPage(myDriver.getDriver());
-        informationPage = new FlightInformationPage(myDriver.getDriver());
-        checkoutPage = new FlightCheckoutPage (myDriver.getDriver());*/
+        
     }
 
-   //@AfterTest(alwaysRun = true)
   @AfterMethod (alwaysRun = true)
     public void afterSuite(){
         myDriver.getDriver().quit();
@@ -56,4 +53,5 @@ public class BaseTest {
     public FlightCheckoutPage getCheckoutPage() {
     	return this.checkoutPage;
     }
+    
 }

@@ -29,6 +29,11 @@ public class HomePage extends BasePage{
 	private final String SEARCH_FLIGHT = "[data-gcw-key='hp-flight'] [data-gcw-change-submit-text='Search']";
 	private final String PACKAGES_BTN = "tab-package-tab-hp";
 	private final String FLIGHT_HOTEL_CAR_BTN = "[for='fhc-fhc-hp-package']";
+	private final String DEPARTURE_PACKAGE = "package-origin-hp-package";
+	private final String RETURN_PACKAGE = "package-destination-hp-package";
+	private final String DEPARTURE_PACKAGE_DATE = "package-departing-hp-package";
+	private final String RETURN_PACKAGE_DATE ="package-returning-hp-package";
+	private final String SEARCH_PACKAGE_BTN = "search-button-hp-package";
 	
 	
 	@FindBy(id = FLIGHT_BTN)
@@ -68,9 +73,24 @@ public class HomePage extends BasePage{
 	
 	@FindBy(id= PACKAGES_BTN)
 	private WebElement packagesButton;
-	
+
 	@FindBy(css= FLIGHT_HOTEL_CAR_BTN)
 	private WebElement flightHotelCarButton;
+	
+	@FindBy(id= DEPARTURE_PACKAGE)
+	private WebElement departurePackageInput;
+	
+	@FindBy(id= RETURN_PACKAGE)
+	private WebElement returnPackageInput;
+	
+	@FindBy(id= SEARCH_PACKAGE_BTN)
+	private WebElement searchButton;
+	
+	@FindBy(id= DEPARTURE_PACKAGE_DATE)
+	private WebElement departurePackageDate;
+
+	@FindBy(id= RETURN_PACKAGE_DATE)
+	private WebElement returnPackageDate;
 	
 	@Parameters({"url"})
 	public HomePage(WebDriver pDriver){
@@ -112,8 +132,8 @@ public class HomePage extends BasePage{
 	public void setReturnDate() {
 		returnDateInput.click();
 		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		//nextMonthBtn.click();
-		datePickerDay18.click();
+		nextMonthBtn.click();
+		datePickerDay.click();
 	}
 	
 	public FlightSearchPage setSearchFlight(){
@@ -124,6 +144,41 @@ public class HomePage extends BasePage{
 	public void setFlightHotelAndCar() {
 		packagesButton.click();
 		flightHotelCarButton.click();
+	}
+	
+	public void setDeparturePackage(String departureFlight) {
+		getWait().until(ExpectedConditions.visibilityOf(departurePackageInput));
+		departurePackageInput.sendKeys(departureFlight);
+		departurePackageInput.sendKeys(Keys.SPACE);
+		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
+		departurePackageInput.sendKeys(Keys.TAB);
+	}
+	
+	public void setReturnPackage(String returnFlight) {
+		getWait().until(ExpectedConditions.visibilityOf(returnPackageInput));
+		returnPackageInput.sendKeys(returnFlight);
+		returnPackageInput.sendKeys(Keys.SPACE);
+		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
+		returnPackageInput.sendKeys(Keys.TAB);
+	}
+	
+	public void setDeparturePackageDate() {
+		departurePackageDate.click();
+		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
+		nextMonthBtn.click();
+		nextMonthBtn.click();
+		datePickerDay.click();
+	}
+	
+	public void setReturnPackageDate() {
+		returnPackageDate.click();
+		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
+		datePickerDay18.click();
+	}
+	
+	public FlightSearchPage setSearchBtn() {
+		searchButton.click();
+		return new FlightSearchPage(this.getDriver());
 	}
 	
 }
