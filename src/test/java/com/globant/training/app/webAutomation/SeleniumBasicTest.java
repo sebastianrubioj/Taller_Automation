@@ -116,13 +116,19 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setReturnPackage(returnCity);
 		home.setDeparturePackageDate();
 		home.setReturnPackageDate();
+		home.setNumberOfAdults(1);
 		
 		HotelSearchPage search = home.setSearchBtn();
 		
-		System.out.println(search.getOriginCity());
 		Assert.assertTrue(search.getOriginCity().contains("Las Vegas"), "The city of departure should be Las Vegas but is: " + search.getOriginCity());
-		Assert.assertTrue(search.getDestinationCity().contains("Los Angeles"), "The city of departure should be Las Vegas but is: " + search.getDestinationCity());
+		Assert.assertTrue(search.getDestinationCity().contains("Los Angeles"), "The city of departure should be Los Angeles but is: " + search.getDestinationCity());
 		Assert.assertTrue(search.getHeaderMessage().contains("Start by choosing your hotel"), "The Header Message is not the expected one, is showing: " + search.getHeaderMessage() + ". And should show: Start by choosing your hotel");
+		Assert.assertEquals(search.getNumberOfRooms(), 1);
+		Assert.assertTrue(search.isTopOfPageLinkPresent(), "The link to go to the top of the page is not present");
+		
+		search.setSortByPrice();
+		Assert.assertTrue(search.isCorrectlySorted(), "The fares are not correctly stored by price");
+		
 		
 	}
 	

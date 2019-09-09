@@ -34,6 +34,7 @@ public class HomePage extends BasePage{
 	private final String DEPARTURE_PACKAGE_DATE = "package-departing-hp-package";
 	private final String RETURN_PACKAGE_DATE ="package-returning-hp-package";
 	private final String SEARCH_PACKAGE_BTN = "search-button-hp-package";
+	private final String ADULTS_NUMBER = "package-1-adults-hp-package";
 	
 	
 	@FindBy(id = FLIGHT_BTN)
@@ -91,6 +92,9 @@ public class HomePage extends BasePage{
 
 	@FindBy(id= RETURN_PACKAGE_DATE)
 	private WebElement returnPackageDate;
+	
+	@FindBy(id= ADULTS_NUMBER)
+	private WebElement adultsNumber;
 	
 	@Parameters({"url"})
 	public HomePage(WebDriver pDriver){
@@ -183,4 +187,8 @@ public class HomePage extends BasePage{
 		return new HotelSearchPage(this.getDriver());
 	}
 	
+	public void setNumberOfAdults(Integer adults) {
+		adultsNumber.click();
+		adultsNumber.sendKeys(adults.toString());
+	}
 }

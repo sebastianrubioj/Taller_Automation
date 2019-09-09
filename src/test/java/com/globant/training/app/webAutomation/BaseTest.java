@@ -38,7 +38,7 @@ public class BaseTest {
     public void afterSuite(){
         myDriver.getDriver().quit();
     }
-    
+ 
     public HomePage getHomePage() {
     	return this.homePage;
     }
