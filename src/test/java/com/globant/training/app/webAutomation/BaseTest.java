@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
+import com.globant.training.app.pages.travelocity.CarSearchPage;
+import com.globant.training.app.pages.travelocity.ChooseARoomPage;
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
@@ -25,6 +27,8 @@ public class BaseTest {
     private FlightInformationPage informationPage;
     private FlightCheckoutPage checkoutPage;
     private HotelSearchPage hotelSearchPage;
+    private ChooseARoomPage chooseARoomPage;
+    private CarSearchPage carSearchPage;
     
   
     @BeforeMethod (alwaysRun = true)
@@ -32,6 +36,8 @@ public class BaseTest {
     public void beforeSuite(String browser){
         myDriver = new MyDriver(browser);
         homePage = new HomePage(myDriver.getDriver());
+        informationPage = new FlightInformationPage(myDriver.getDriver());
+        carSearchPage = new CarSearchPage(myDriver.getDriver());
     }
 
   @AfterMethod (alwaysRun = true)
@@ -57,5 +63,13 @@ public class BaseTest {
     
     public HotelSearchPage getHotelSearchPage() {
     	return this.hotelSearchPage;
+    }
+    
+    public ChooseARoomPage getChooseARoomPage(){
+    	return this.chooseARoomPage;
+    }
+    
+    public CarSearchPage getCarSearchPage() {
+    	return this.carSearchPage;
     }
 }

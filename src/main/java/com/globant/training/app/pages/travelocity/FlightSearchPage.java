@@ -188,7 +188,8 @@ public class FlightSearchPage extends BasePage {
 	}
 
 	public void setDepartureFlight(int fareNumber) {
-
+		
+		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
 		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
 				+ fareNumber + "']";
 		String selectFareBtn = "//li[3]/div[2]/div//button";
@@ -213,7 +214,7 @@ public class FlightSearchPage extends BasePage {
 		}
 	}
 
-	public FlightInformationPage setReturnFlight(int fareNumber) {
+	public void setReturnFlight(int fareNumber) {
 		getWait().until(
 				ExpectedConditions.attributeContains(allFlights, "class", "segmented-list results-list price-sort"));
 		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
@@ -245,6 +246,6 @@ public class FlightSearchPage extends BasePage {
 			System.out.println("Modal Wasn't Displayed");
 		}
 
-		return new FlightInformationPage(this.getDriver());
+		//return new FlightInformationPage(this.getDriver());
 	}
 }

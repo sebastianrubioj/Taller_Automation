@@ -25,7 +25,7 @@ public class HomePage extends BasePage{
 	private final String NEXT_MONTH_BTN = "datepicker-next";
 	//To select the day I decided to use this xpath so I can be sure that whenever you run this scenario this will select a date three months later
 	private final String DATE_PICKER_DAY = "//div[@class='datepicker-cal-month'][2]//tr[2]//td[@class='datepicker-day-number notranslate'][1]";
-	private final String DATE_PICKER_DAY_18 = "//div[@class='datepicker-cal-month'][2]//tr[4]//td[@class='datepicker-day-number notranslate'][5]";
+	private final String DATE_PICKER_DAY_13 = "//div[@class='datepicker-cal-month'][2]//tr[3]//td[@class='datepicker-day-number notranslate'][7]";
 	private final String SEARCH_FLIGHT = "[data-gcw-key='hp-flight'] [data-gcw-change-submit-text='Search']";
 	private final String PACKAGES_BTN = "tab-package-tab-hp";
 	private final String FLIGHT_HOTEL_CAR_BTN = "[for='fhc-fhc-hp-package']";
@@ -66,8 +66,8 @@ public class HomePage extends BasePage{
 	@FindBy(xpath= DATE_PICKER_DAY)
 	private WebElement datePickerDay;
 	
-	@FindBy(xpath= DATE_PICKER_DAY_18)
-	private WebElement datePickerDay18;
+	@FindBy(xpath= DATE_PICKER_DAY_13)
+	private WebElement datePickerDay13;
 	
 	@FindBy(css= SEARCH_FLIGHT)
 	private WebElement searchFlight;
@@ -179,7 +179,7 @@ public class HomePage extends BasePage{
 	public void setReturnPackageDate() {
 		returnPackageDate.click();
 		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		datePickerDay18.click();
+		datePickerDay13.click();
 	}
 	
 	public HotelSearchPage setSearchBtn() {

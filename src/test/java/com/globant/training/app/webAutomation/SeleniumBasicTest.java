@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 //import java.lang.Thread;
 
+import com.globant.training.app.pages.travelocity.CarSearchPage;
+import com.globant.training.app.pages.travelocity.ChooseARoomPage;
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
@@ -23,6 +25,7 @@ public class SeleniumBasicTest extends BaseTest {
 	public void flightBooking() {
 		
 		HomePage home = getHomePage();
+		FlightInformationPage information = getInformationPage();
 		
 		String departureCity = "LAS";
 		String returnCity = "LAX";
@@ -72,7 +75,7 @@ public class SeleniumBasicTest extends BaseTest {
 		
 	/* 5. In the new page (Select your departure to Las Vegas), select the third result. */ 
 		
-		FlightInformationPage information = search.setReturnFlight(3);
+		search.setReturnFlight(3);	
 	
 	/* Verify trip details in the new page, by: 
 	 * a. Trip total price is present */
@@ -103,8 +106,9 @@ public class SeleniumBasicTest extends BaseTest {
 	
 	@Test(groups = {"test2"})
 	public void flightHotelCarBooking() {
-		
+			
 		HomePage home = getHomePage();
+		CarSearchPage carSearch = getCarSearchPage();
 		
 		home.setFlightHotelAndCar();
 		
@@ -118,16 +122,27 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setReturnPackageDate();
 		home.setNumberOfAdults(1);
 		
-		HotelSearchPage search = home.setSearchBtn();
+		HotelSearchPage searchHotel = home.setSearchBtn();
 		
-		Assert.assertTrue(search.getOriginCity().contains("Las Vegas"), "The city of departure should be Las Vegas but is: " + search.getOriginCity());
-		Assert.assertTrue(search.getDestinationCity().contains("Los Angeles"), "The city of departure should be Los Angeles but is: " + search.getDestinationCity());
-		Assert.assertTrue(search.getHeaderMessage().contains("Start by choosing your hotel"), "The Header Message is not the expected one, is showing: " + search.getHeaderMessage() + ". And should show: Start by choosing your hotel");
-		Assert.assertEquals(search.getNumberOfRooms(), 1);
-		Assert.assertTrue(search.isTopOfPageLinkPresent(), "The link to go to the top of the page is not present");
+		Assert.assertTrue(searchHotel.getOriginCity().contains("Las Vegas"), "The city of departure should be Las Vegas but is: " + searchHotel.getOriginCity());
+		Assert.assertTrue(searchHotel.getDestinationCity().contains("Los Angeles"), "The city of departure should be Los Angeles but is: " + searchHotel.getDestinationCity());
+		Assert.assertTrue(searchHotel.getHeaderMessage().contains("Start by choosing your hotel"), "The Header Message is not the expected one, is showing: " + searchHotel.getHeaderMessage() + ". And should show: Start by choosing your hotel");
+		Assert.assertEquals(searchHotel.getNumberOfRooms(), 1);
+		Assert.assertTrue(searchHotel.isTopOfPageLinkPresent(), "The link to go to the top of the page is not present");
 		
-		search.setSortByPrice();
-		Assert.assertTrue(search.isCorrectlySorted(), "The fares are not correctly stored by price");
+		searchHotel.setSortByPrice();
+		Assert.assertTrue(searchHotel.isCorrectlySorted(), "The fares are not correctly stored by price");
+		ChooseARoomPage chooseRoom = searchHotel.setHotelByStars(3);
+		
+		Assert.assertEquals(searchHotel.priceSelected, chooseRoom.getPrice());
+		Assert.assertEquals(searchHotel.hotelNameSelected, chooseRoom.getHotelName());
+		Assert.assertEquals(searchHotel.starsNumberSelected, chooseRoom.getStarsNumber());
+		
+		FlightSearchPage searchFlight= chooseRoom.setRoom(1);
+		
+		searchFlight.setDepartureFlight(1);
+		searchFlight.setReturnFlight(3);
+		
 		
 		
 	}
