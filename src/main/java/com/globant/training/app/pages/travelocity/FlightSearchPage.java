@@ -21,8 +21,9 @@ import net.bytebuddy.implementation.bytecode.constant.SerializedConstant;
 public class FlightSearchPage extends BasePage {
 
 	private final String SORT_DROPDOWN_BOX = "sortDropdown";
-	private final String FLIGHT_LIST = "li[class='flight-module segment offer-listing']";
-	private final String FLIGHT_SELECT_BTN = "div[class='uitk-col standard-col-l-margin all-col-shrink display-larger-screens-only']";
+	private final String FLIGHT_LIST = "offer-listing";
+	private final String FLIGHT_SELECT_BTN = "div[class='uitk-col standard-col-l-margin all-col-shrink display-larger-screens-only'] button";
+	private final String RULES_AND_RESTRICTIONS_BTN_LIST = ".flight-module .basic-economy-tray button";
 	// private final String SELECT_THIS_FARE_BTN = "div[class='basic-economy-tray
 	// uitk-grid'] button[class='btn-secondary btn-action t-select-btn']";
 	private final String FLIGHT_SEARCH_RESULT = "flightModuleList";
@@ -41,16 +42,16 @@ public class FlightSearchPage extends BasePage {
 	@FindBy(id = SORT_DROPDOWN_BOX)
 	private WebElement sortDropdownElement;
 
-	@FindAll({ @FindBy(css = FLIGHT_LIST) })
+	@FindAll({ @FindBy(className = FLIGHT_LIST) })
 	private List<WebElement> allFlightList;
 
 	@FindAll({ @FindBy(css = FLIGHT_SELECT_BTN) })
 	private List<WebElement> flightSelectBtn;
 
-	/*
-	 * @FindAll({@FindBy (css = SELECT_THIS_FARE_BTN)}) private List<WebElement>
-	 * selectThisFareBtn;
-	 */
+	
+	 @FindAll({@FindBy (css = RULES_AND_RESTRICTIONS_BTN_LIST)}) 
+	 private List<WebElement> rulesAndRestrictionAccordionList;
+	 
 
 	@FindBy(id = FLIGHT_SEARCH_RESULT)
 	private WebElement allFlights;
@@ -190,50 +191,39 @@ public class FlightSearchPage extends BasePage {
 	public void setDepartureFlight(int fareNumber) {
 		
 		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
-		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
-				+ fareNumber + "']";
-		String selectFareBtn = "//li[3]/div[2]/div//button";
+		String selectFareBtn = "//li["+fareNumber+"]/div[2]/div//button";
 		
-		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
-
-		if (farePresent) {
-			WebElement fare = getDriver().findElement(By.cssSelector(buttonSelector));
-			fare.click();
+		if(getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+			flightSelectBtn.get(fareNumber - 1).click();
+			
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			WebElement searchTittle = getDriver().findElement(By.className("title-city-text"));
 			selectThisFareBtn.click();
-		if(!searchTittle.getText().contains("return")) {
-			//getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			selectThisFareBtn.click();
-		}
+		
 				
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
 		}
-	}
+		}
 
 	public void setReturnFlight(int fareNumber) {
 		getWait().until(
-				ExpectedConditions.attributeContains(allFlights, "class", "segmented-list results-list price-sort"));
-		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
-				+ fareNumber + "']";
+				ExpectedConditions.attributeContains(allFlights, "class", " price-sort"));
+	
 		String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
-		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
-
-		if (farePresent) {
-			WebElement fare = getDriver().findElement(By.cssSelector(buttonSelector));
-			fare.click();
+		
+		if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+			flightSelectBtn.get(fareNumber - 1).click();
+			
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
 
-		} else {
+		}else {
 
 			flightSelectBtn.get(fareNumber - 1).click();
-
 		}
 
 		boolean modalPresent = getDriver().findElements(By.id("xSellHotelForcedChoice")).size() != 0;

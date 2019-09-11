@@ -143,7 +143,7 @@ public class SeleniumBasicTest extends BaseTest {
 		searchFlight.setDepartureFlight(1);
 		searchFlight.setReturnFlight(3);
 		
-		
+		carSearch.setCarToRent(4);
 		
 	}
 	
