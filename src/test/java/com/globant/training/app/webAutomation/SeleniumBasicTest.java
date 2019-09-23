@@ -6,16 +6,15 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 //import java.lang.Thread;
 
-<<<<<<< Updated upstream
-=======
+
 import com.globant.training.app.pages.travelocity.CarSearchPage;
 import com.globant.training.app.pages.travelocity.ChooseARoomPage;
 import com.globant.training.app.pages.travelocity.CruiseSearchPage;
->>>>>>> Stashed changes
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
 import com.globant.training.app.pages.travelocity.HomePage;
+import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 
 public class SeleniumBasicTest extends BaseTest {
@@ -110,6 +109,8 @@ public class SeleniumBasicTest extends BaseTest {
 	public void flightHotelCarBooking() {
 		
 		HomePage home = getHomePage();
+		CarSearchPage carSearch = getCarSearchPage();
+		HotelSearchPage searchHotel = getHotelSearchPage();
 		
 		home.setFlightHotelAndCar();
 		
@@ -123,8 +124,6 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setDepartureDate();
 		home.setReturnDate();
 		
-<<<<<<< Updated upstream
-=======
 		FlightCheckoutPage checkout = carSearch.setCarToRent(4);
 		
 		String carTypeSelected = carSearch.carTypeSelected;
@@ -168,7 +167,7 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setCheckoutDate("06/02/2021");
 		home.setSearchBtn();
 		Assert.assertEquals(home.getMismatchDatesErrorMessage(),"Your partial check-in and check-out dates must fall within your arrival and departure dates. Please review your dates.");
->>>>>>> Stashed changes
+
 		
 	}
 	

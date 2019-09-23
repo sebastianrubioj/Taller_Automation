@@ -25,13 +25,10 @@ public class HomePage extends BasePage{
 	private final String NEXT_MONTH_BTN = "datepicker-next";
 	//To select the day I decided to use this xpath so I can be sure that whenever you run this scenario this will select a date three months later
 	private final String DATE_PICKER_DAY = "//div[@class='datepicker-cal-month'][2]//tr[2]//td[@class='datepicker-day-number notranslate'][1]";
-	private final String DATE_PICKER_DAY_18 = "//div[@class='datepicker-cal-month'][2]//tr[4]//td[@class='datepicker-day-number notranslate'][5]";
+	private final String DATE_PICKER_DAY_13 = "//div[@class='datepicker-cal-month'][2]//tr[3]//td[@class='datepicker-day-number notranslate'][7]";
 	private final String SEARCH_FLIGHT = "[data-gcw-key='hp-flight'] [data-gcw-change-submit-text='Search']";
 	private final String PACKAGES_BTN = "tab-package-tab-hp";
 	private final String FLIGHT_HOTEL_CAR_BTN = "[for='fhc-fhc-hp-package']";
-<<<<<<< Updated upstream
-	
-=======
 	private final String DEPARTURE_PACKAGE = "package-origin-hp-package";
 	private final String RETURN_PACKAGE = "package-destination-hp-package";
 	private final String DEPARTURE_PACKAGE_DATE = "package-departing-hp-package";
@@ -52,7 +49,7 @@ public class HomePage extends BasePage{
 	private final String CRUISE_END_DATE = "cruise-end-date-hp-cruise";
 	private final String SEARCH_CRUISE_BTN = "[data-gcw-key='hp-cruise'] .btn-primary";
 	private final String ADULTS_NUMBER_CRUISE = "cruise-adults-hp-cruise";
->>>>>>> Stashed changes
+
 	
 	@FindBy(id = FLIGHT_BTN)
 	private WebElement flightButton;
@@ -81,8 +78,8 @@ public class HomePage extends BasePage{
 	@FindBy(xpath= DATE_PICKER_DAY)
 	private WebElement datePickerDay;
 	
-	@FindBy(xpath= DATE_PICKER_DAY_18)
-	private WebElement datePickerDay18;
+	@FindBy(xpath= DATE_PICKER_DAY_13)
+	private WebElement datePickerDay13;
 	
 	@FindBy(css= SEARCH_FLIGHT)
 	private WebElement searchFlight;
@@ -93,8 +90,6 @@ public class HomePage extends BasePage{
 	@FindBy(css= FLIGHT_HOTEL_CAR_BTN)
 	private WebElement flightHotelCarButton;
 	
-<<<<<<< Updated upstream
-=======
 	@FindBy(id= DEPARTURE_PACKAGE)
 	private WebElement departurePackageInput;
 	
@@ -155,7 +150,6 @@ public class HomePage extends BasePage{
 	@FindBy(id=ADULTS_NUMBER_CRUISE)
 	private WebElement adultsNumberCruise;
 	
->>>>>>> Stashed changes
 	@Parameters({"url"})
 	public HomePage(WebDriver pDriver){
 		super(pDriver);
@@ -196,8 +190,9 @@ public class HomePage extends BasePage{
 	public void setReturnDate() {
 		returnDateInput.click();
 		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		//nextMonthBtn.click();
-		datePickerDay18.click();
+		nextMonthBtn.click();
+		datePickerDay.click();
+		//datePickerDay18.click();
 	}
 	
 	public FlightSearchPage setSearchFlight(){
@@ -209,9 +204,7 @@ public class HomePage extends BasePage{
 		packagesButton.click();
 		flightHotelCarButton.click();
 	}
-	
-<<<<<<< Updated upstream
-=======
+
 	public void setDeparturePackage(String departureFlight) {
 		getWait().until(ExpectedConditions.visibilityOf(departurePackageInput));
 		getWait().until(ExpectedConditions.elementToBeClickable(departurePackageInput));
@@ -334,5 +327,4 @@ public class HomePage extends BasePage{
 		searchCruiseBtn.click();
 		return new CruiseSearchPage(getDriver());
 	}
->>>>>>> Stashed changes
 }

@@ -219,25 +219,25 @@ public class FlightSearchPage extends BasePage {
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
 		}
-<<<<<<< Updated upstream
-	}
-=======
 		while(getDriver().findElement(By.className("title-city-text")).getText().contains("departure")) {
 			System.out.println(".");
 		}
-		}
->>>>>>> Stashed changes
+	}
+
+		
+		
+
 
 	public FlightInformationPage setReturnFlight(int fareNumber) {
 		getWait().until(
-<<<<<<< Updated upstream
+
 				ExpectedConditions.attributeContains(allFlights, "class", "segmented-list results-list price-sort"));
 		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
 				+ fareNumber + "']";
-=======
-				ExpectedConditions.attributeContains(allFlights,"className", " price-sort"));
+
+			//	ExpectedConditions.attributeContains(allFlights,"className", " price-sort"));
 	
->>>>>>> Stashed changes
+
 		String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
 		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
 

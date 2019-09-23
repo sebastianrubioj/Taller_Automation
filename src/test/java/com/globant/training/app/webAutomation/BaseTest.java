@@ -10,17 +10,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
-
-<<<<<<< Updated upstream
-=======
 import com.globant.training.app.pages.travelocity.CarSearchPage;
 import com.globant.training.app.pages.travelocity.ChooseARoomPage;
 import com.globant.training.app.pages.travelocity.CruiseSearchPage;
->>>>>>> Stashed changes
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
 import com.globant.training.app.pages.travelocity.HomePage;
+import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 
 public class BaseTest {
@@ -29,13 +26,11 @@ public class BaseTest {
     private FlightSearchPage selectPage;
     private FlightInformationPage informationPage;
     private FlightCheckoutPage checkoutPage;
-<<<<<<< Updated upstream
-=======
     private HotelSearchPage hotelSearchPage;
     private ChooseARoomPage chooseARoomPage;
     private CarSearchPage carSearchPage;
     private CruiseSearchPage cruiseSearchPage;
->>>>>>> Stashed changes
+
     
    // @BeforeTest(alwaysRun = true)
     @BeforeMethod (alwaysRun = true)
@@ -69,9 +64,7 @@ public class BaseTest {
     public FlightCheckoutPage getCheckoutPage() {
     	return this.checkoutPage;
     }
-<<<<<<< Updated upstream
-=======
-    
+
     public HotelSearchPage getHotelSearchPage() {
     	return this.hotelSearchPage;
     }
@@ -87,5 +80,5 @@ public class BaseTest {
     public CruiseSearchPage getCruiseSearchPage() {
     	return this.cruiseSearchPage;
     }
->>>>>>> Stashed changes
+
 }
