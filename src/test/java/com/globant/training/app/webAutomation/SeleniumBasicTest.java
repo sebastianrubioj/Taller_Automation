@@ -6,6 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 //import java.lang.Thread;
 
+<<<<<<< Updated upstream
+=======
+import com.globant.training.app.pages.travelocity.CarSearchPage;
+import com.globant.training.app.pages.travelocity.ChooseARoomPage;
+import com.globant.training.app.pages.travelocity.CruiseSearchPage;
+>>>>>>> Stashed changes
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
 import com.globant.training.app.pages.travelocity.FlightSearchPage;
@@ -88,7 +94,7 @@ public class SeleniumBasicTest extends BaseTest {
 		FlightCheckoutPage checkout = information.setContinueBooking();
 		
 	/*Verify the “Who’s traveling” page is opened by choosing at least 5 validations to be performed. */
-		Assert.assertTrue(checkout.getProductSummaryPresent(), "The product summary information is not displayed");
+		Assert.assertTrue(checkout.getFlightProductSummaryPresent(), "The product summary information is not displayed");
 		Assert.assertEquals(checkout.getWhoTravelsMessage(), "Who's traveling?");
 		Assert.assertTrue(checkout.getFirstNameInputIsPresent(), "The input Field to write the Name of the passenger is not pressent");
 		Assert.assertTrue(checkout.getTermsAndConditionsPresent(), "The terms and conditions link is not present");
@@ -117,7 +123,81 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setDepartureDate();
 		home.setReturnDate();
 		
+<<<<<<< Updated upstream
+=======
+		FlightCheckoutPage checkout = carSearch.setCarToRent(4);
+		
+		String carTypeSelected = carSearch.carTypeSelected;
+				
+		Assert.assertTrue(checkout.getFlightProductSummaryPresent(), "The Flight product summary information is not displayed");
+		Assert.assertTrue(checkout.getHotelProductSummaryPresent(), "The Hotel product summary information is not displayed");
+		Assert.assertTrue(checkout.getCarProductSummaryPresent(), "The Car product summary information is not displayed");
+		Assert.assertEquals(checkout.getHotelNameSelected(), searchHotel.hotelNameSelected);
+		Assert.assertEquals(checkout.getCarTypeSelected(), carTypeSelected);
 		
 	}
 	
+	@Test(groups= {"test3"})
+	public void hotelBooking() {
+		HomePage home = getHomePage();
+		
+		home.setHotelTab();
+		home.setHotelDestination("Montevideo, Uruguay");
+		HotelSearchPage hotel = home.setSearchHotel();
+		
+		Assert.assertTrue(hotel.getMessageSponsored().contains("Sponsored"),"The first fare is not sponsored");
+		Assert.assertTrue(hotel.isTheDiscountMessagePresent(), "The Discount Message is not present");
+		
+	}
+	
+	@Test(groups= {"test4"})
+	public void flightHotel() {
+		HomePage home = getHomePage();
+		
+		home.setFlightHotelTab();
+		String departureCity = "LAS";
+		String returnCity = "Los Angeles";
+	
+		home.setDeparturePackage(departureCity);
+		home.setReturnPackage(returnCity);
+		home.setDeparturePackageDate();
+		home.setReturnPackageDate();
+		home.setNumberOfAdults(1);
+		home.setPartialStayCheckbox();
+		home.setCheckinDate("05/02/2021");
+		home.setCheckoutDate("06/02/2021");
+		home.setSearchBtn();
+		Assert.assertEquals(home.getMismatchDatesErrorMessage(),"Your partial check-in and check-out dates must fall within your arrival and departure dates. Please review your dates.");
+>>>>>>> Stashed changes
+		
+	}
+	
+	@Test(groups= {"test5"})
+	public void cruises(){
+		HomePage home = getHomePage();
+		
+		String cruiseDestination="Europe";
+		String cruiseStartDate="01/05/2021";
+		//String cruiseEndDate="02/04/2021";
+		int adultsCruiseNumber = 2;
+		
+		home.setCruisesTabSelect();
+		home.setCruisesDestination(cruiseDestination);
+		home.setStartCruiseDate(cruiseStartDate);
+		//home.setEndCruiseDate(cruiseEndDate);
+		home.SetAdultsCruiseNumber(adultsCruiseNumber);
+		
+		CruiseSearchPage cruiseSearch = home.setSearchCruises();
+		
+		int fareWithoutCorrectDestination = cruiseSearch.fareWithoutCorrectDestination;
+		
+		Assert.assertEquals(cruiseSearch.getDestinationSelected(), cruiseDestination);
+		Assert.assertTrue(cruiseSearch.getAdultsNumberSelected()==adultsCruiseNumber, "The amount of adults selected doesn't match with the amount showed on the search page");
+		Assert.assertTrue(cruiseSearch.isCorrectDestinationPresentInAllFares(cruiseDestination), "The fare Number " + (fareWithoutCorrectDestination+1) + " Does not have the destination " + cruiseDestination);
+		
+		cruiseSearch.setNights10To14FilterCheckbox();
+		Assert.assertTrue(cruiseSearch.isAllSorted10To14Nights());
+		
+		
+	}
 }

@@ -6,7 +6,11 @@
   <test name="Page Object Test">
     <groups>
         <run>
+<<<<<<< Updated upstream
             <include name="test" />
+=======
+            <include name="test5" />
+>>>>>>> Stashed changes
         </run>
     </groups>
     <classes>

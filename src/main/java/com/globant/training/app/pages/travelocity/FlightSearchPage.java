@@ -30,6 +30,8 @@ public class FlightSearchPage extends BasePage {
 	private final String PROGRESS_BAR = "div[class='progress-bar'] div[style='width: 100%;']";
 	private final String FLIGHT_DETAIL_FEES = "show-flight-details";
 	private final String FLIGHT_TEXT = "title-city-text";
+	private final String FARE_VERIFYCATION="bCol";
+	
 	public int buttonMissed;
 	public int durationMissed;
 	public int fareDetailMissed;
@@ -66,7 +68,10 @@ public class FlightSearchPage extends BasePage {
 
 	@FindBy(className = FLIGHT_TEXT)
 	private WebElement flightText;
-
+	
+	@FindBy(id=FARE_VERIFYCATION)
+	private WebElement fareVerifycation;
+	
 	public boolean getDropDownBox() {
 		getWait().until(ExpectedConditions.visibilityOf(sortDropdownElement));
 		return sortDropdownElement.isDisplayed();
@@ -214,13 +219,25 @@ public class FlightSearchPage extends BasePage {
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
 		}
+<<<<<<< Updated upstream
 	}
+=======
+		while(getDriver().findElement(By.className("title-city-text")).getText().contains("departure")) {
+			System.out.println(".");
+		}
+		}
+>>>>>>> Stashed changes
 
 	public FlightInformationPage setReturnFlight(int fareNumber) {
 		getWait().until(
+<<<<<<< Updated upstream
 				ExpectedConditions.attributeContains(allFlights, "class", "segmented-list results-list price-sort"));
 		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
 				+ fareNumber + "']";
+=======
+				ExpectedConditions.attributeContains(allFlights,"className", " price-sort"));
+	
+>>>>>>> Stashed changes
 		String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
 		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
 
