@@ -194,65 +194,41 @@ public class FlightSearchPage extends BasePage {
 
 	public void setDepartureFlight(int fareNumber) {
 
-		//getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
-		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
-				+ fareNumber + "']";
-		//String selectFareBtn = "button[data-is-basic-economy-tray-button='true'] span[class='visuallyhidden']";
-		String selectFareBtn = "//li[3]/div[2]/div//button";
-		//String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
-
-		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
-
-		if (farePresent) {
-			WebElement fare = getDriver().findElement(By.cssSelector(buttonSelector));
-			fare.click();
+		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
+		String selectFareBtn = "//li["+fareNumber+"]/div[2]/div//button";
+		
+		if(getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+			flightSelectBtn.get(fareNumber - 1).click();
+			
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			WebElement searchTittle = getDriver().findElement(By.className("title-city-text"));
 			selectThisFareBtn.click();
-		if(!searchTittle.getText().contains("return")) {
-			//getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			selectThisFareBtn.click();
-		}
+		
 				
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
 		}
-		while(getDriver().findElement(By.className("title-city-text")).getText().contains("departure")) {
-			System.out.println(".");
-		}
+		
 	}
 
-		
-		
-
-
-	public FlightInformationPage setReturnFlight(int fareNumber) {
+	public void setReturnFlight(int fareNumber) {
 		getWait().until(
-
-				ExpectedConditions.attributeContains(allFlights, "class", "segmented-list results-list price-sort"));
-		String buttonSelector = "li[class='flight-module segment offer-listing'] div[class='basic-economy-tray uitk-grid'] button[aria-controls='basic-economy-tray-content-"
-				+ fareNumber + "']";
-
-			//	ExpectedConditions.attributeContains(allFlights,"className", " price-sort"));
+				ExpectedConditions.attributeContains(allFlights, "class", " price-sort"));
 	
-
 		String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
-		boolean farePresent = getDriver().findElements(By.cssSelector(buttonSelector)).size() != 0;
-
-		if (farePresent) {
-			WebElement fare = getDriver().findElement(By.cssSelector(buttonSelector));
-			fare.click();
+		
+		if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+			flightSelectBtn.get(fareNumber - 1).click();
+			
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
 
-		} else {
+		}else {
 
 			flightSelectBtn.get(fareNumber - 1).click();
-
 		}
 
 		boolean modalPresent = getDriver().findElements(By.id("xSellHotelForcedChoice")).size() != 0;
@@ -265,6 +241,6 @@ public class FlightSearchPage extends BasePage {
 			System.out.println("Modal Wasn't Displayed");
 		}
 
-		return new FlightInformationPage(this.getDriver());
+		//return new FlightInformationPage(this.getDriver());
 	}
 }
