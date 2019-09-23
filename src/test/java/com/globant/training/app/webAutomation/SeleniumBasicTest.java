@@ -110,19 +110,39 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		HomePage home = getHomePage();
 		CarSearchPage carSearch = getCarSearchPage();
-		HotelSearchPage searchHotel = getHotelSearchPage();
+		//HotelSearchPage searchHotel = getHotelSearchPage();
 		
 		home.setFlightHotelAndCar();
 		
 		String departureCity = "LAS";
-		String returnCity = "LAX";
+		String returnCity = "Los Angeles";
 		
+		home.setDeparturePackage(departureCity);
+		home.setReturnPackage(returnCity);
+		home.setDeparturePackageDate();
+		home.setReturnPackageDate();
+		home.setNumberOfAdults(1);
 		
+		HotelSearchPage searchHotel = home.setSearchBtn();
 		
-		home.setDepartureFlight(departureCity);
-		home.setArrivalFlight(returnCity);
-		home.setDepartureDate();
-		home.setReturnDate();
+		Assert.assertTrue(searchHotel.getOriginCity().contains("Las Vegas"), "The city of departure should be Las Vegas but is: " + searchHotel.getOriginCity());
+		Assert.assertTrue(searchHotel.getDestinationCity().contains("Los Angeles"), "The city of departure should be Los Angeles but is: " + searchHotel.getDestinationCity());
+		Assert.assertTrue(searchHotel.getHeaderMessage().contains("Start by choosing your hotel"), "The Header Message is not the expected one, is showing: " + searchHotel.getHeaderMessage() + ". And should show: Start by choosing your hotel");
+		Assert.assertEquals(searchHotel.getNumberOfRooms(), 1);
+		Assert.assertTrue(searchHotel.isTopOfPageLinkPresent(), "The link to go to the top of the page is not present");
+		
+		searchHotel.setSortByPrice();
+		Assert.assertTrue(searchHotel.isCorrectlySorted(), "The fares are not correctly stored by price");
+		ChooseARoomPage chooseRoom = searchHotel.setHotelByStars(3);
+		
+		Assert.assertEquals(searchHotel.priceSelected, chooseRoom.getPrice());
+		Assert.assertEquals(searchHotel.hotelNameSelected, chooseRoom.getHotelName());
+		Assert.assertEquals(searchHotel.starsNumberSelected, chooseRoom.getStarsNumber());
+		
+		FlightSearchPage searchFlight= chooseRoom.setRoom(1);
+		
+		searchFlight.setDepartureFlight(1);
+		searchFlight.setReturnFlight(3);
 		
 		FlightCheckoutPage checkout = carSearch.setCarToRent(4);
 		
