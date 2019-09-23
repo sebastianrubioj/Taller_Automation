@@ -36,7 +36,6 @@ public class FlightInformationPage extends BasePage {
 	
 	
 	public boolean getTotalPricePresent() {
-		
 		String currentHandle = getDriver().getWindowHandle();
 		Set<String> allHandles = getDriver().getWindowHandles();
 		allHandles.remove(currentHandle);

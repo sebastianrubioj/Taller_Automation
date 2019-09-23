@@ -28,8 +28,9 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		HomePage home = getHomePage();
 		
-		String departureCity = "LAS";
-		String returnCity = "LAX";
+		
+		String departureCity = "LAS vegas";
+		String returnCity = "Los angeles";
 		
 	/*
 	 * 1. Search for a flight from LAS to LAX, 1 adult (clicking on Flight/Roundtrip). 
@@ -76,8 +77,9 @@ public class SeleniumBasicTest extends BaseTest {
 		
 	/* 5. In the new page (Select your departure to Las Vegas), select the third result. */ 
 		
-		FlightInformationPage information = search.setReturnFlight(3);
-	
+		search.setReturnFlight(3);
+		FlightInformationPage information = getInformationPage();
+		
 	/* Verify trip details in the new page, by: 
 	 * a. Trip total price is present */
 		Assert.assertTrue(information.getTotalPricePresent(), "The total price is not present on the flight information page");
