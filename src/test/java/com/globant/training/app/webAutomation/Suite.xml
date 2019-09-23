@@ -6,7 +6,7 @@
   <test name="Page Object Test">
     <groups>
         <run>
-           <include name="test" />
+           <include name="test2" />
         </run>
     </groups>
     <classes>

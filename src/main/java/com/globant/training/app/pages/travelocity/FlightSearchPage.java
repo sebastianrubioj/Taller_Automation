@@ -204,10 +204,15 @@ public class FlightSearchPage extends BasePage {
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
-		
 				
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
+			if(getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
+				WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
+				getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
+				selectThisFareBtn.click();
+					
+			}
 		}
 		
 	}

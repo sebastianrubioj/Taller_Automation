@@ -38,9 +38,9 @@ public class BaseTest {
     public void beforeSuite(String browser){
         myDriver = new MyDriver(browser);
         homePage = new HomePage(myDriver.getDriver());
-       /* selectPage = new FlightSearchPage(myDriver.getDriver());
         informationPage = new FlightInformationPage(myDriver.getDriver());
-        checkoutPage = new FlightCheckoutPage (myDriver.getDriver());*/
+        carSearchPage = new CarSearchPage(myDriver.getDriver());
+        
     }
 
    //@AfterTest(alwaysRun = true)

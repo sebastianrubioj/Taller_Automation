@@ -49,6 +49,7 @@ public class HomePage extends BasePage{
 	private final String CRUISE_END_DATE = "cruise-end-date-hp-cruise";
 	private final String SEARCH_CRUISE_BTN = "[data-gcw-key='hp-cruise'] .btn-primary";
 	private final String ADULTS_NUMBER_CRUISE = "cruise-adults-hp-cruise";
+	private final String HOTEL_CHECKIN_DATE = "hotel-checkin-hp-hotel";
 
 	
 	@FindBy(id = FLIGHT_BTN)
@@ -149,6 +150,9 @@ public class HomePage extends BasePage{
 	
 	@FindBy(id=ADULTS_NUMBER_CRUISE)
 	private WebElement adultsNumberCruise;
+	
+	@FindBy(id= HOTEL_CHECKIN_DATE)
+	private WebElement hotelCheckinDate;
 	
 	@Parameters({"url"})
 	public HomePage(WebDriver pDriver){
@@ -326,5 +330,12 @@ public class HomePage extends BasePage{
 	public CruiseSearchPage setSearchCruises() {
 		searchCruiseBtn.click();
 		return new CruiseSearchPage(getDriver());
+	}
+	
+	public void setHotelCheckinDate() {
+		hotelCheckinDate.click();
+		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
+		datePickerDay.click();
+		
 	}
 }

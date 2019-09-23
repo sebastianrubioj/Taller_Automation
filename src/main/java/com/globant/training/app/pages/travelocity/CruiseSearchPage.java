@@ -74,7 +74,7 @@ public class CruiseSearchPage extends BasePage{
 	
 	public boolean isAllSorted10To14Nights() {
 		boolean isSortedCorrectly=true;
-		getWait().until(ExpectedConditions.visibilityOf(titleFareList.get(0)));
+		getWait().until(ExpectedConditions.elementToBeClickable(sortOptionsBar));
 		
 		for(int i=0; i< titleFareList.size(); i++) {
 			String titleFare = titleFareList.get(i).getText().replaceAll("([A-z]*)( )*", "");
