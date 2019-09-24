@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import com.globant.training.app.pages.travelocity.CarSearchPage;
 import com.globant.training.app.pages.travelocity.ChooseARoomPage;
+import com.globant.training.app.pages.travelocity.CruiseCabinCategoryPage;
 import com.globant.training.app.pages.travelocity.CruiseSearchPage;
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
@@ -160,9 +161,10 @@ public class SeleniumBasicTest extends BaseTest {
 	@Test(groups= {"test3"})
 	public void hotelBooking() {
 		HomePage home = getHomePage();
-		
+		String hotelDestination = "Montevideo, Uruguay"; 
 		home.setHotelTab();
-		home.setHotelDestination("Montevideo, Uruguay");
+		home.setHotelDestination(hotelDestination);
+		
 		home.setHotelCheckinDate();
 		HotelSearchPage hotel = home.setSearchHotel();
 		
@@ -199,13 +201,11 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		String cruiseDestination="Europe";
 		String cruiseStartDate="01/05/2021";
-		//String cruiseEndDate="02/04/2021";
 		int adultsCruiseNumber = 2;
 		
 		home.setCruisesTabSelect();
 		home.setCruisesDestination(cruiseDestination);
 		home.setStartCruiseDate(cruiseStartDate);
-		//home.setEndCruiseDate(cruiseEndDate);
 		home.SetAdultsCruiseNumber(adultsCruiseNumber);
 		
 		CruiseSearchPage cruiseSearch = home.setSearchCruises();
@@ -218,7 +218,18 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		cruiseSearch.setNights10To14FilterCheckbox();
 		Assert.assertTrue(cruiseSearch.isAllSorted10To14Nights());
+		Assert.assertTrue(cruiseSearch.arePromotionsPresent());
 		
+		CruiseCabinCategoryPage cabinCategory = cruiseSearch.setHigerDiscountFare();
+		
+		cabinCategory.chageOfTab();
+		
+		Assert.assertTrue(cabinCategory.getTitleSelected().equalsIgnoreCase(cruiseSearch.titleFareSelected), "The title fare selected does not match with the one that appears on "
+				+ "the Cabin Category page. Expected: " + cruiseSearch.titleFareSelected + ", but found: " + cabinCategory.getTitleSelected());
+		Assert.assertTrue(cabinCategory.getCruiseDateSelected().contains(cruiseSearch.departureDateSelected), "The departure date selected does not match with the one that "
+				+ "appears on the Cabin Category page. Expected: " + cruiseSearch.departureDateSelected + ", but found: " + cabinCategory.getCruiseDateSelected());
+		Assert.assertTrue(cabinCategory.getDepartureCitySelected().equalsIgnoreCase(cruiseSearch.departureCitySelected), "The departure city selected does not match with the one "
+				+ "that appears on the Cabin Category page. Expected: " + cruiseSearch.departureCitySelected + ", but found: " + cabinCategory.getDepartureCitySelected());
 		
 	}
 }

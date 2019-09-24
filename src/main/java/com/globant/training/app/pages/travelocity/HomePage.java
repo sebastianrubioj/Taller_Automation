@@ -264,6 +264,12 @@ public class HomePage extends BasePage{
 		hotelDestinationInput.sendKeys(Keys.ENTER);
 	}
 	
+	public String getHotelDestination() {
+		getWait().until(ExpectedConditions.visibilityOf(hotelDestinationInput));
+		getWait().until(ExpectedConditions.elementToBeClickable(hotelDestinationInput));
+		return hotelDestinationInput.getText();
+	}
+	
 	public HotelSearchPage setSearchHotel() {
 		//getWait().until(ExpectedConditions.elementToBeClickable(hotelSearchBtn));
 		hotelSearchBtn.click();

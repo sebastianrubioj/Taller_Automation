@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import com.globant.training.app.pages.travelocity.CarSearchPage;
 import com.globant.training.app.pages.travelocity.ChooseARoomPage;
+import com.globant.training.app.pages.travelocity.CruiseCabinCategoryPage;
 import com.globant.training.app.pages.travelocity.CruiseSearchPage;
 import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
 import com.globant.training.app.pages.travelocity.FlightInformationPage;
@@ -30,7 +31,7 @@ public class BaseTest {
     private ChooseARoomPage chooseARoomPage;
     private CarSearchPage carSearchPage;
     private CruiseSearchPage cruiseSearchPage;
-
+    private CruiseCabinCategoryPage cruiseCabinCategoryPage;
     
    // @BeforeTest(alwaysRun = true)
     @BeforeMethod (alwaysRun = true)
@@ -80,5 +81,7 @@ public class BaseTest {
     public CruiseSearchPage getCruiseSearchPage() {
     	return this.cruiseSearchPage;
     }
-
+    public CruiseCabinCategoryPage getCruiseCabinCategoryPage() {
+    	return this.cruiseCabinCategoryPage;
+    }
 }

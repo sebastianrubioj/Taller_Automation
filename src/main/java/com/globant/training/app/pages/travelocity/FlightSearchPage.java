@@ -22,7 +22,7 @@ public class FlightSearchPage extends BasePage {
 
 	private final String SORT_DROPDOWN_BOX = "sortDropdown";
 	private final String FLIGHT_LIST = "li[class='flight-module segment offer-listing']";
-	private final String FLIGHT_SELECT_BTN = "div[class='uitk-col standard-col-l-margin all-col-shrink display-larger-screens-only']";
+	private final String FLIGHT_SELECT_BTN = "div[class='uitk-col standard-col-l-margin all-col-shrink display-larger-screens-only'] button";
 	// private final String SELECT_THIS_FARE_BTN = "div[class='basic-economy-tray
 	// uitk-grid'] button[class='btn-secondary btn-action t-select-btn']";
 	private final String FLIGHT_SEARCH_RESULT = "flightModuleList";
@@ -207,14 +207,10 @@ public class FlightSearchPage extends BasePage {
 				
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
-			if(getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
-				WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
-				getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-				selectThisFareBtn.click();
-					
-			}
 		}
-		
+		while(flightText.getText().contains("departure")) {
+			System.out.println(".");
+		}
 	}
 
 	public void setReturnFlight(int fareNumber) {
