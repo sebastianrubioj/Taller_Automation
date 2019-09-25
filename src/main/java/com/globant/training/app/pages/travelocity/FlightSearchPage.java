@@ -209,7 +209,7 @@ public class FlightSearchPage extends BasePage {
 			flightSelectBtn.get(fareNumber - 1).click();
 		}
 		while(flightText.getText().contains("departure")) {
-			System.out.println(".");
+			flightSelectBtn.get(fareNumber - 1).click();
 		}
 	}
 
