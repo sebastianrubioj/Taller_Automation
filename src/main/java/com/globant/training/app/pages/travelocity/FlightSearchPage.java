@@ -1,10 +1,6 @@
 package com.globant.training.app.pages.travelocity;
 
-import java.beans.Visibility;
 import java.util.List;
-
-import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,32 +8,35 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-
 import com.globant.training.app.pages.BasePage;
 
-import net.bytebuddy.implementation.bytecode.constant.SerializedConstant;
+/**
+ * Flight Search Page.
+ * 
+ * @author sebastian.rubio
+ *
+ */
 
 public class FlightSearchPage extends BasePage {
 
 	private final String SORT_DROPDOWN_BOX = "sortDropdown";
 	private final String FLIGHT_LIST = "li[class='flight-module segment offer-listing']";
 	private final String FLIGHT_SELECT_BTN = "div[class='uitk-col standard-col-l-margin all-col-shrink display-larger-screens-only'] button";
-	// private final String SELECT_THIS_FARE_BTN = "div[class='basic-economy-tray
-	// uitk-grid'] button[class='btn-secondary btn-action t-select-btn']";
 	private final String FLIGHT_SEARCH_RESULT = "flightModuleList";
 	private final String FLIGHT_DURATION = "duration-emphasis";
 	private final String PROGRESS_BAR = "div[class='progress-bar'] div[style='width: 100%;']";
 	private final String FLIGHT_DETAIL_FEES = "show-flight-details";
 	private final String FLIGHT_TEXT = "title-city-text";
-	private final String FARE_VERIFYCATION="bCol";
-	
-	public int buttonMissed;
-	public int durationMissed;
-	public int fareDetailMissed;
+	private final String FARE_VERIFYCATION = "bCol";
+	private final String SORT_OPTIONS = "select[id='sortDropdown'] option";
+
+	private int buttonMissed;
+	private int durationMissed;
+	private int fareDetailMissed;
 
 	public FlightSearchPage(WebDriver pDriver) {
 		super(pDriver);
+		setLoggerInfo("Start flight Search Page");
 	}
 
 	@FindBy(id = SORT_DROPDOWN_BOX)
@@ -48,11 +47,6 @@ public class FlightSearchPage extends BasePage {
 
 	@FindAll({ @FindBy(css = FLIGHT_SELECT_BTN) })
 	private List<WebElement> flightSelectBtn;
-
-	/*
-	 * @FindAll({@FindBy (css = SELECT_THIS_FARE_BTN)}) private List<WebElement>
-	 * selectThisFareBtn;
-	 */
 
 	@FindBy(id = FLIGHT_SEARCH_RESULT)
 	private WebElement allFlights;
@@ -68,14 +62,41 @@ public class FlightSearchPage extends BasePage {
 
 	@FindBy(className = FLIGHT_TEXT)
 	private WebElement flightText;
-	
-	@FindBy(id=FARE_VERIFYCATION)
+
+	@FindBy(id = FARE_VERIFYCATION)
 	private WebElement fareVerifycation;
-	
+
+	@FindAll({ @FindBy(className = SORT_OPTIONS) })
+	private List<WebElement> sortOptionList;
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the sort drop down have all the options listed
+	 * @return boolean
+	 */
+
 	public boolean getDropDownBox() {
-		getWait().until(ExpectedConditions.visibilityOf(sortDropdownElement));
-		return sortDropdownElement.isDisplayed();
+		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
+		getWait().until(ExpectedConditions.elementToBeClickable(sortDropdownElement));
+		boolean allSortOptionsPresent = false;
+
+		if (sortDropdownElement.getText().contains("Price") && sortDropdownElement.getText().contains("Duration")
+				&& sortDropdownElement.getText().contains("Departure")
+				&& sortDropdownElement.getText().contains("Arrival")) {
+			allSortOptionsPresent = true;
+		}
+
+		return allSortOptionsPresent;
 	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the amount of fares is the same than the amount
+	 *               of Select buttons
+	 * @return boolean
+	 */
 
 	public boolean getselectBtnForAllFlights() {
 		boolean buttonPresent = false;
@@ -87,19 +108,25 @@ public class FlightSearchPage extends BasePage {
 			for (int i = 0; i < allFlightList.size(); i++) {
 				if (!flightSelectBtn.get(i).isDisplayed()) {
 					buttonPresent = false;
-					buttonMissed = i;
+					setButtonMissed(i);
 					break;
 				}
 			}
 		} else {
-			System.out.println(
-					"Comparison between the number of fare search buttons and the number of fares doesn't match");
+			setLoggerInfo("Comparison between the number of fare search buttons and the number of fares doesn't match");
 		}
-
-		System.out.println("Number of select Button: " + flightSelectBtn.size());
+		setLoggerInfo("Number of select Button: " + flightSelectBtn.size());
 
 		return buttonPresent;
 	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the amount of fares is the same than the amount
+	 *               of flight duration texts
+	 * @return boolean
+	 */
 
 	public boolean getFlightDurationForAllFares() {
 		boolean flightDurationPresent = false;
@@ -110,19 +137,25 @@ public class FlightSearchPage extends BasePage {
 			for (int i = 0; i < allFlightList.size(); i++) {
 				if (!FlightDuration.get(i).isDisplayed()) {
 					flightDurationPresent = false;
-					durationMissed = i;
+					setDurationMissed(i);
 					break;
 				}
 			}
 		} else {
-			System.out
-					.println("Comparison between the number of flight durations and the number of fares doesn't match");
+			setLoggerInfo("Comparison between the number of flight durations and the number of fares doesn't match");
 		}
-
-		System.out.println("Number of Flight Duration info: " + FlightDuration.size());
+		setLoggerInfo("Number of Flight Duration info: " + FlightDuration.size());
 
 		return flightDurationPresent;
 	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the amount of fares is the same than the amount
+	 *               of flight details
+	 * @return boolean
+	 */
 
 	public boolean getFlightDetailsForAllFares() {
 		boolean flightDetailsPresent = false;
@@ -133,16 +166,15 @@ public class FlightSearchPage extends BasePage {
 			for (int i = 0; i < allFlightList.size(); i++) {
 				if (!flightDetailsAndFees.get(i).isDisplayed()) {
 					flightDetailsPresent = false;
-					fareDetailMissed = i;
+					setFareDetailMissed(i);
 					break;
 				}
 			}
 		} else {
-			System.out.println("Comparison between the number of flight details and the number of fares doesn't match");
+			setLoggerInfo("Comparison between the number of flight details and the number of fares doesn't match");
 		}
-
-		System.out.println("Number of Detail and Fees: " + flightDetailsAndFees.size());
-		System.out.println("Number of fares: " + allFlightList.size());
+		setLoggerInfo("Number of Detail and Fees: " + flightDetailsAndFees.size());
+		setLoggerInfo("Number of fares: " + allFlightList.size());
 		return flightDetailsPresent;
 	}
 
@@ -151,6 +183,13 @@ public class FlightSearchPage extends BasePage {
 		sortDropdownElement.sendKeys("Duration (Shortest)");
 		sortDropdownElement.sendKeys(Keys.ENTER);
 	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the flights are correctly ordered by Duration
+	 * @return boolean
+	 */
 
 	public boolean getFaresOrderByDuration() {
 
@@ -184,64 +223,125 @@ public class FlightSearchPage extends BasePage {
 					break;
 				}
 			}
-			System.out.print("Hour Fare Number " + i + ": " + hour + "  ");
-			System.out.println("Min Fare Number " + i + ": " + min);
+			setLoggerInfo("Hour Fare Number " + i + ": " + hour + "  ");
+			setLoggerInfo("Min Fare Number " + i + ": " + min);
 
 		}
 		return faresOrdered;
 
 	}
 
-	public void setDepartureFlight(int fareNumber) {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to select the departure flight
+	 * @param fareNumber : Integer
+	 */
 
+	public void setDepartureFlight(int fareNumber) {
 		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
-		String selectFareBtn = "//li["+fareNumber+"]/div[2]/div//button";
-		
-		if(getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
-			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
-			flightSelectBtn.get(fareNumber - 1).click();
-			
-			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
-			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			selectThisFareBtn.click();
-				
-		} else {
-			flightSelectBtn.get(fareNumber - 1).click();
-		}
-		while(flightText.getText().contains("departure")) {
-			flightSelectBtn.get(fareNumber - 1).click();
-		}
+		selectFlight(fareNumber);
 	}
 
-	public void setReturnFlight(int fareNumber) {
-		getWait().until(
-				ExpectedConditions.attributeContains(allFlights, "class", " price-sort"));
-	
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to select the return flight
+	 * @param fareNumber : Integer
+	 * @return FlightInformationPage
+	 */
+
+	public FlightInformationPage setReturnFlight(int fareNumber) {
+		getWait().until(ExpectedConditions.attributeContains(allFlights, "class", " price-sort"));
+		selectFlight(fareNumber);
+		modalHandler();
+		return new FlightInformationPage(this.getDriver());
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to select the return flight
+	 * @param fareNumber : Integer
+	 * @return CarSearchPage
+	 */
+
+	public CarSearchPage setReturnFlightToCar(int fareNumber) {
+		getWait().until(ExpectedConditions.attributeContains(allFlights, "class", " price-sort"));
+		selectFlight(fareNumber);
+		modalHandler();
+		return new CarSearchPage(this.getDriver());
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to select a flight
+	 * @param fareNumber : Integer
+	 */
+
+	public void selectFlight(int fareNumber) {
 		String selectFareBtn = "//li[" + fareNumber + "]/div[2]/div//button";
-		
+
 		if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
 			flightSelectBtn.get(fareNumber - 1).click();
-			
+
 			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
 			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
 			selectThisFareBtn.click();
 
-		}else {
-
+		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
-		}
+			if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
+				WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
 
+				getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
+				getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
+				selectThisFareBtn.click();
+			}
+		}
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to handle if the "add Hotel" message is Displayed or not
+	 */
+
+	public void modalHandler() {
 		boolean modalPresent = getDriver().findElements(By.id("xSellHotelForcedChoice")).size() != 0;
-		/*In here we handled if the add Hotel message is Displayed or not*/
+
 		if (modalPresent) {
 			WebElement noThanks = getDriver().findElement(By.id("forcedChoiceNoThanks"));
 			getWait().until(ExpectedConditions.elementToBeClickable(noThanks));
 			noThanks.click();
 		} else {
-			System.out.println("Modal Wasn't Displayed");
+			setLoggerInfo("Modal Wasn't Displayed");
 		}
+	}
 
-		//return new FlightInformationPage(this.getDriver());
+	public int getButtonMissed() {
+		return buttonMissed;
+	}
+
+	public void setButtonMissed(int buttonMissed) {
+		this.buttonMissed = buttonMissed;
+	}
+
+	public int getDurationMissed() {
+		return durationMissed;
+	}
+
+	public void setDurationMissed(int durationMissed) {
+		this.durationMissed = durationMissed;
+	}
+
+	public int getFareDetailMissed() {
+		return fareDetailMissed;
+	}
+
+	public void setFareDetailMissed(int fareDetailMissed) {
+		this.fareDetailMissed = fareDetailMissed;
 	}
 }

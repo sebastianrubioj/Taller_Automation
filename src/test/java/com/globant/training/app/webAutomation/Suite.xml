@@ -1,16 +1,21 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Globant Selenium Test">
-  <parameter name="browser" value="chrome"></parameter>
-  <parameter name="url" value="https://www.travelocity.com/"></parameter>
-  <test name="Page Object Test">
-    <groups>
-        <run>
-           <include name="test" />
-        </run>
-    </groups>
-    <classes>
-    	<class name="com.globant.training.app.webAutomation.SeleniumBasicTest" />
-    </classes>
-  </test>
+<suite name="Globant Selenium Test" verbose="1">
+	<parameter name="browser" value="chrome"></parameter>
+	<parameter name="url" value="https://www.travelocity.com/"></parameter>
+	<test name="Page Object Test">
+		<groups>
+			<run>
+				<include name="test1" />
+				<include name="test2" />
+				<include name="test3" />
+				<include name="test4" />
+				<include name="test5" />
+			</run>
+		</groups>
+		<classes>
+			<class
+				name="com.globant.training.app.webAutomation.SeleniumBasicTest" />
+		</classes>
+	</test>
 </suite>

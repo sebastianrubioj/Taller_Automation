@@ -1,87 +1,49 @@
 package com.globant.training.app.webAutomation;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.apache.log4j.BasicConfigurator;
+import org.testng.annotations.*;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
-import com.globant.training.app.pages.travelocity.CarSearchPage;
-import com.globant.training.app.pages.travelocity.ChooseARoomPage;
-import com.globant.training.app.pages.travelocity.CruiseCabinCategoryPage;
-import com.globant.training.app.pages.travelocity.CruiseSearchPage;
-import com.globant.training.app.pages.travelocity.FlightCheckoutPage;
-import com.globant.training.app.pages.travelocity.FlightInformationPage;
-import com.globant.training.app.pages.travelocity.FlightSearchPage;
 import com.globant.training.app.pages.travelocity.HomePage;
-import com.globant.training.app.pages.travelocity.HotelSearchPage;
-
 
 public class BaseTest {
-    private MyDriver myDriver;
-    private HomePage homePage;
-    private FlightSearchPage selectPage;
-    private FlightInformationPage informationPage;
-    private FlightCheckoutPage checkoutPage;
-    private HotelSearchPage hotelSearchPage;
-    private ChooseARoomPage chooseARoomPage;
-    private CarSearchPage carSearchPage;
-    private CruiseSearchPage cruiseSearchPage;
-    private CruiseCabinCategoryPage cruiseCabinCategoryPage;
-    
-   // @BeforeTest(alwaysRun = true)
-    @BeforeMethod (alwaysRun = true)
-    @Parameters({"browser"})
-    public void beforeSuite(String browser){
-        myDriver = new MyDriver(browser);
-        homePage = new HomePage(myDriver.getDriver());
-        informationPage = new FlightInformationPage(myDriver.getDriver());
-        carSearchPage = new CarSearchPage(myDriver.getDriver());
-        
-    }
+	private MyDriver myDriver;
+	private HomePage homePage;
 
-   //@AfterTest(alwaysRun = true)
-  @AfterMethod (alwaysRun = true)
-    public void afterSuite(){
-        myDriver.getDriver().quit();
-    }
-    
-    public HomePage getHomePage() {
-    	return this.homePage;
-    }
-    
-    public FlightSearchPage getSelectPage() {
-    	return this.selectPage;
-    }
-    
-    public FlightInformationPage getInformationPage() {
-    	return this.informationPage;
-    }
-    
-    public FlightCheckoutPage getCheckoutPage() {
-    	return this.checkoutPage;
-    }
+	@BeforeTest(alwaysRun = true)
+	public void loggerConfig() {
+		BasicConfigurator.configure();
+	}
 
-    public HotelSearchPage getHotelSearchPage() {
-    	return this.hotelSearchPage;
-    }
-    
-    public ChooseARoomPage getChooseARoomPage(){
-    	return this.chooseARoomPage;
-    }
-    
-    public CarSearchPage getCarSearchPage() {
-    	return this.carSearchPage;
-    }
-    
-    public CruiseSearchPage getCruiseSearchPage() {
-    	return this.cruiseSearchPage;
-    }
-    public CruiseCabinCategoryPage getCruiseCabinCategoryPage() {
-    	return this.cruiseCabinCategoryPage;
-    }
+	@BeforeMethod(alwaysRun = true)
+	@Parameters({ "browser", "url" })
+	public void beforeSuite(String browser, String url) {
+		myDriver = new MyDriver(browser);
+		homePage = new HomePage(myDriver.getDriver(), url);
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void afterSuite() {
+		myDriver.getDriver().quit();
+	}
+
+	@DataProvider(name = "Flights")
+	public static Object[][] setFlightsToTravel() {
+		return new Object[][] { { "LAS vegas", "Los angeles" } };
+	}
+
+	@DataProvider(name = "Hotel")
+	public static Object[][] setHotel() {
+		return new Object[][] { { "Montevideo, Uruguay" } };
+	}
+
+	@DataProvider(name = "CruiserInfo")
+	public static Object[][] setCruiserInfo() {
+		return new Object[][] { { "Europe", 1, 2 } };
+	}
+
+	public HomePage getHomePage() {
+		return this.homePage;
+	}
 }

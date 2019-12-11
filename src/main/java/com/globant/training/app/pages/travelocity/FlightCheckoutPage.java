@@ -10,17 +10,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
 
+
+/**
+ * Flight Checkout Page.
+ * 
+ * @author sebastian.rubio
+ *
+ */
+
 public class FlightCheckoutPage extends BasePage{
 
-	private final String FLIGHT_SUMMARY = "product-summary";
+	private final String PRODUCT_SUMMARY = "product-summary";
 	private final String FIRST_NAME_INPUT = "firstname[0]";
 	private final String WHO_TRAVELS_MESSAGE = "[class='allTravelerDetails'] [class='faceoff-module-title']";
 	private final String TERMS_AND_CONDITIONS_LINK = "terms-minimal-link";
 	private final String COMPLETE_BOOKING_BTN = "complete-booking";
 	private final String PRODUCTS_SELECTED_LIST = "product-content-title";	
 	
-	@FindAll({@FindBy(className= FLIGHT_SUMMARY)})
-	private List<WebElement> flightSummary;
+	@FindAll({@FindBy(className= PRODUCT_SUMMARY)})
+	private List<WebElement> productSummary;
 	
 	@FindBy(id= FIRST_NAME_INPUT)
 	private WebElement firstNameInput;
@@ -39,14 +47,21 @@ public class FlightCheckoutPage extends BasePage{
 	
 	public FlightCheckoutPage(WebDriver pDriver) {
 		super(pDriver);
-		// TODO Auto-generated constructor stub
+		setLoggerInfo("Going to checkout Page");
 	}
 
-	public boolean getFlightProductSummaryPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if summary of flight products is present
+	 * @return boolean
+	 */
+	
+	public boolean isFlightProductSummaryPresent() {
 		boolean productSummaryPresent = false;
-		getWait().until(ExpectedConditions.visibilityOf(flightSummary.get(0)));
+		getWait().until(ExpectedConditions.visibilityOf(productSummary.get(0)));
 		
-		if(flightSummary.get(0).isDisplayed()) {
+		if(productSummary.get(0).isDisplayed()) {
 			productSummaryPresent = true;
 		}
 		
@@ -54,7 +69,14 @@ public class FlightCheckoutPage extends BasePage{
 		
 	}
 	
-	public boolean getFirstNameInputIsPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the text input for the first name is present
+	 * @return boolean
+	 */
+	
+	public boolean isFirstNameInputIsPresent() {
 		boolean firstNameIsPresent = false;
 		
 		if(firstNameInput.isDisplayed()) {
@@ -65,13 +87,27 @@ public class FlightCheckoutPage extends BasePage{
 		
 	}
 	
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: Get the 'Who Travels' message
+	 * @return String
+	 */
+	
 	public String getWhoTravelsMessage() {
 		String whoTravelMessage = whoTravelsMessage.getText();
 		return whoTravelMessage;
 		
 	}
 	
-	public boolean getTermsAndConditionsPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the "terms and conditions" text is present
+	 * @return boolean
+	 */
+	
+	public boolean isTermsAndConditionsPresent() {
 		boolean termsAndConditionsIsPresent = false;
 		
 		if(termsAndConditionsLink.isDisplayed()) {
@@ -81,7 +117,14 @@ public class FlightCheckoutPage extends BasePage{
 		
 	}
 	
-	public boolean getCompleteBookingBtnPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the "complete booking" button is present
+	 * @return boolean
+	 */
+	
+	public boolean isCompleteBookingBtnPresent() {
 		boolean completeBookingButtonIsPresent = false;
 		
 		if (completeBookingBtn.isDisplayed()) {
@@ -91,11 +134,18 @@ public class FlightCheckoutPage extends BasePage{
 		return completeBookingButtonIsPresent;
 	}
 	
-	public boolean getHotelProductSummaryPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the summary of hotel products is present
+	 * @return boolean
+	 */
+	
+	public boolean isHotelProductSummaryPresent() {
 		boolean productSummaryPresent = false;
-		getWait().until(ExpectedConditions.visibilityOf(flightSummary.get(1)));
+		getWait().until(ExpectedConditions.visibilityOf(productSummary.get(1)));
 		
-		if(flightSummary.get(1).isDisplayed()) {
+		if(productSummary.get(1).isDisplayed()) {
 			productSummaryPresent = true;
 		}
 		
@@ -103,11 +153,18 @@ public class FlightCheckoutPage extends BasePage{
 		
 	}
 	
-	public boolean getCarProductSummaryPresent() {
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the summary of car products is present
+	 * @return boolean
+	 */
+	
+	public boolean isCarProductSummaryPresent() {
 		boolean productSummaryPresent = false;
-		getWait().until(ExpectedConditions.visibilityOf(flightSummary.get(2)));
+		getWait().until(ExpectedConditions.visibilityOf(productSummary.get(2)));
 		
-		if(flightSummary.get(2).isDisplayed()) {
+		if(productSummary.get(2).isDisplayed()) {
 			productSummaryPresent = true;
 		}
 		

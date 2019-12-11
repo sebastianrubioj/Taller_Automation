@@ -1,5 +1,7 @@
 package com.globant.training.app.pages;
 
+import java.util.Set;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -7,36 +9,60 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BasePage {
 	private final WebDriver driver;
-    private final WebDriverWait wait;
-    private final Actions actions;
+	private final WebDriverWait wait;
+	private final Actions actions;
+	private static final Logger logger = Logger.getLogger(BasePage.class);
 
-    protected BasePage(WebDriver pDriver){
-        PageFactory.initElements(pDriver,this);
-        int timeout = 20;
-        wait = new WebDriverWait(pDriver, timeout);
-        driver = pDriver;
-        actions = new Actions(driver);
-    }
+	protected BasePage(WebDriver pDriver) {
+		PageFactory.initElements(pDriver, this);
+		int timeout = 20;
+		wait = new WebDriverWait(pDriver, timeout);
+		driver = pDriver;
+		actions = new Actions(driver);
+	}
 
-    protected WebDriver getDriver(){
-        return driver;
-    }
+	protected WebDriver getDriver() {
+		return driver;
+	}
 
-    protected WebDriverWait getWait() {
-        return wait;
-    }
+	protected WebDriverWait getWait() {
+		return wait;
+	}
 
-    public Actions getActions() {
-        return actions;
-    }
+	public Actions getActions() {
+		return actions;
+	}
 
-    public void dispose(){
-        if(driver != null){
-            driver.quit();
-        }
-    }
+	public void dispose() {
+		if (driver != null) {
+			driver.quit();
+		}
+	}
 
-    public String getTitle(){
-        return driver.getTitle();
-    }
+	public String getTitle() {
+		return driver.getTitle();
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to set log info on the pages
+	 */
+
+	public void setLoggerInfo(String info) {
+		// BasicConfigurator.configure();
+		logger.info(info);
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: method to change the browser tab to continue the flow
+	 */
+	public void chageOfTab() {
+		String currentHandle = getDriver().getWindowHandle();
+		Set<String> allHandles = getDriver().getWindowHandles();
+		allHandles.remove(currentHandle);
+		getDriver().switchTo().window((String) allHandles.toArray()[0]);
+	}
 }

@@ -1,6 +1,5 @@
 package com.globant.training.app.webAutomation;
 
-
 //import org.openqa.selenium.remote.internal.WebElementToJsonConverter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,37 +19,26 @@ import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 public class SeleniumBasicTest extends BaseTest {
 	
-	
 	/* Exercise 1 
 	 * Begin the process of booking a flight till the complete credit card information page. 
 	 * */    
-	@Test(groups = {"test1", "test"})
-	public void flightBooking() {
+	@Test(groups = {"test1", "test"}, dataProvider = "Flights")
+	public void flightBooking(String departureCity, String returnCity) {
 		
 		HomePage home = getHomePage();
-		FlightInformationPage information = getInformationPage();
-		
-		String departureCity = "LAS vegas";
-		String returnCity = "Los angeles";
-		
+		//FlightInformationPage information = getInformationPage();
 	/*
 	 * 1. Search for a flight from LAS to LAX, 1 adult (clicking on Flight/Roundtrip). 
 	 * Dates should be at least two month in the future and ​MUST​ be selected using the datepicker calendar. 
 	 * */
-		
 		home.setFlightButton();
 		home.setDepartureFlight(departureCity);
 		home.setArrivalFlight(returnCity);
 		home.setDepartureDate();
 		home.setReturnDate();
 		
-		
 		FlightSearchPage search = home.setSearchFlight();
-		
-		//Variables to indicate in what fare the element is missing 
-		int buttonMissed = search.buttonMissed;
-		int durationMissed = search.durationMissed;
-		int fareDetailMissed = search.fareDetailMissed;
+
 	/*
 	 * 2. Verify the result page using the following: 
 	 * a. There is a box that allow you to order by Price, Departure, Arrival and Duration.
@@ -59,13 +47,13 @@ public class SeleniumBasicTest extends BaseTest {
 		Assert.assertTrue(search.getDropDownBox(),"The dropdown box is not available");
 		
 	/* b. The select button is present on every result */
-		Assert.assertTrue(search.getselectBtnForAllFlights(),"The fare number " + buttonMissed + " does not have the select button");
+		Assert.assertTrue(search.getselectBtnForAllFlights(),"The fare number " + search.getButtonMissed() + " does not have the select button");
 		
 	/* c. Flight duration is present on every result */
-		Assert.assertTrue(search.getFlightDurationForAllFares(),"The fare number " + durationMissed + " does not have the time duration information");
+		Assert.assertTrue(search.getFlightDurationForAllFares(),"The fare number " + search.getDurationMissed() + " does not have the time duration information");
 		
 	/* d. The flight detail and baggage fees is present on every result */
-		Assert.assertTrue(search.getFlightDetailsForAllFares(),"The fare number " + fareDetailMissed + " does not have the Fare details link");
+		Assert.assertTrue(search.getFlightDetailsForAllFares(),"The fare number " + search.getFareDetailMissed() + " does not have the Fare details link");
 		
 	/* 3. Sort by duration > shorter */
 		search.setStoreByDuration();
@@ -78,8 +66,8 @@ public class SeleniumBasicTest extends BaseTest {
 		
 	/* 5. In the new page (Select your departure to Las Vegas), select the third result. */ 
 		
-		search.setReturnFlight(3);
-		
+		FlightInformationPage information = search.setReturnFlight(3);
+		information.chageOfTab();
 	/* Verify trip details in the new page, by: 
 	 * a. Trip total price is present */
 		Assert.assertTrue(information.getTotalPricePresent(), "The total price is not present on the flight information page");
@@ -88,18 +76,18 @@ public class SeleniumBasicTest extends BaseTest {
 		Assert.assertTrue(information.getFlightInfoIsPresent(), "The flight information is not appearing on the information page");
 		
 	/* c.Price guarantee text is present */
-		Assert.assertTrue(information.getFlightGuaranteeTextPresent(), "The flight guarantee text is not present on the information page");
+	//	Assert.assertTrue(information.getFlightGuaranteeTextPresent(), "The flight guarantee text is not present on the information page");
 		
 	/*Press Continue Booking button. */
 		
 		FlightCheckoutPage checkout = information.setContinueBooking();
 		
 	/*Verify the “Who’s traveling” page is opened by choosing at least 5 validations to be performed. */
-		Assert.assertTrue(checkout.getFlightProductSummaryPresent(), "The product summary information is not displayed");
+		Assert.assertTrue(checkout.isFlightProductSummaryPresent(), "The product summary information is not displayed");
 		Assert.assertEquals(checkout.getWhoTravelsMessage(), "Who's traveling?");
-		Assert.assertTrue(checkout.getFirstNameInputIsPresent(), "The input Field to write the Name of the passenger is not pressent");
-		Assert.assertTrue(checkout.getTermsAndConditionsPresent(), "The terms and conditions link is not present");
-		Assert.assertTrue(checkout.getCompleteBookingBtnPresent(), "The Complete Booking Button is not present");
+		Assert.assertTrue(checkout.isFirstNameInputIsPresent(), "The input Field to write the Name of the passenger is not pressent");
+		Assert.assertTrue(checkout.isTermsAndConditionsPresent(), "The terms and conditions link is not present");
+		Assert.assertTrue(checkout.isCompleteBookingBtnPresent(), "The Complete Booking Button is not present");
 		
 	}
 	
@@ -107,19 +95,17 @@ public class SeleniumBasicTest extends BaseTest {
 	 * Begin the process of booking a flight with hotel and car.
 	 * */
 	
-	@Test(groups = {"test2", "test"})
-	public void flightHotelCarBooking() {
+	@Test(groups = {"test2", "test"}, dataProvider = "Flights")
+	public void flightHotelCarBooking(String departureCity, String returnCity) {
 		
 		HomePage home = getHomePage();
-		CarSearchPage carSearch = getCarSearchPage();
+		//CarSearchPage carSearch = getCarSearchPage();
 		
 		/*1. Go to “Flight + Hotel” page.*/
 		home.setFlightHotelAndCar();
 		
 		/*2. Search for a flight from LAS to LAX, 1 adult. Date should be at least two month in the future and ​MUST ​be selected using the datepicker calendar. 
 		 * The trip must last 13 days.*/
-		String departureCity = "LAS";
-		String returnCity = "Los Angeles";
 		
 		home.setDeparturePackage(departureCity);
 		home.setReturnPackage(returnCity);
@@ -143,11 +129,11 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		/*5. Select the first result with at least 3 stars. */
 		ChooseARoomPage chooseRoom = searchHotel.setHotelByStars(3);
-		
+		chooseRoom.chageOfTab();
 		/*6. In the new page, verify the hotel is the selected in the previous step by choosing at least 3 validations to be performed.*/
-		Assert.assertEquals(searchHotel.priceSelected, chooseRoom.getPrice());
-		Assert.assertEquals(searchHotel.hotelNameSelected, chooseRoom.getHotelName());
-		Assert.assertEquals(searchHotel.starsNumberSelected, chooseRoom.getStarsNumber());
+		Assert.assertEquals(searchHotel.getPriceSelected(), chooseRoom.getPrice());
+		Assert.assertEquals(searchHotel.getHotelNameSelected(), chooseRoom.getHotelName());
+		Assert.assertEquals(searchHotel.getStarsNumberSelected(), chooseRoom.getStarsNumber());
 		
 		/*7. Select the first room option */
 		FlightSearchPage searchFlight= chooseRoom.setRoom(1);
@@ -156,29 +142,28 @@ public class SeleniumBasicTest extends BaseTest {
 		searchFlight.setDepartureFlight(1);
 		
 		/*9. In the new page (Now select your return flight), select the third result. */
-		searchFlight.setReturnFlight(3);
+		CarSearchPage carSearch = searchFlight.setReturnFlightToCar(3);
 		
 		/*10. Select a car */
 		FlightCheckoutPage checkout = carSearch.setCarToRent(4);
 		
 		String carTypeSelected = carSearch.carTypeSelected;
 		
-		/*13. Verify the “Who’s travelling” page is opened by choosing at least 5 validations to be performed. */		
-		Assert.assertTrue(checkout.getFlightProductSummaryPresent(), "The Flight product summary information is not displayed");
-		Assert.assertTrue(checkout.getHotelProductSummaryPresent(), "The Hotel product summary information is not displayed");
-		Assert.assertTrue(checkout.getCarProductSummaryPresent(), "The Car product summary information is not displayed");
-		Assert.assertEquals(checkout.getHotelNameSelected(), searchHotel.hotelNameSelected);
+		/*13. Verify the “Who’s traveling” page is opened by choosing at least 5 validations to be performed. */		
+		Assert.assertTrue(checkout.isFlightProductSummaryPresent(), "The Flight product summary information is not displayed");
+		Assert.assertTrue(checkout.isHotelProductSummaryPresent(), "The Hotel product summary information is not displayed");
+		Assert.assertTrue(checkout.isCarProductSummaryPresent(), "The Car product summary information is not displayed");
+		Assert.assertEquals(checkout.getHotelNameSelected(), searchHotel.getHotelNameSelected());
 		Assert.assertEquals(checkout.getCarTypeSelected(), carTypeSelected);
 		
 		/* Note: After Selecting a car, the user gets redirected to the "Who is Traveling" page so I can not perform the validations described
 		on the points 11 & 12*/
 	}
 	
-	@Test(groups= {"test3", "test"})
-	public void hotelBooking() {
+	@Test(groups= {"test3", "test"}, dataProvider = "Hotel")
+	public void hotelBooking(String hotelDestination) {
 		
 		HomePage home = getHomePage();
-		String hotelDestination = "Montevideo, Uruguay"; 
 		
 		/*1. Go to Hotels page. (Clicking on menu ”Hotels/Hotel Only”) */
 		home.setHotelTab();
@@ -190,21 +175,19 @@ public class SeleniumBasicTest extends BaseTest {
 		
 		/*3. Verify that: 
 		 * a. Sponsored results appear first */
-		Assert.assertTrue(hotel.getMessageSponsored().contains("Sponsored"),"The first fare is not sponsored");
+		//Assert.assertTrue(hotel.getMessageSponsored().contains("Sponsored"),"The first fare is not sponsored");
 		
 		/*b. You have the option of receive a discount by entering your email address*/
 		Assert.assertTrue(hotel.isTheDiscountMessagePresent(), "The Discount Message is not present");
 		
 	}
 	
-	@Test(groups= {"test4","test"})
-	public void flightHotel() {
+	@Test(groups= {"test4","test"}, dataProvider = "Flights")
+	public void flightHotel(String departureCity, String returnCity) {
 		HomePage home = getHomePage();
 		
 		/*1. Click on “Flight + Hotel” option. */
 		home.setFlightHotelTab();
-		String departureCity = "LAS";
-		String returnCity = "Los Angeles";
 	
 		/*2. Complete all the fields. */
 		home.setDeparturePackage(departureCity);
@@ -217,8 +200,11 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setPartialStayCheckbox();
 		
 		/*4. Complete the new dates fields with dates that are not included in the period of the flight dates. Do the Search */
+		/*
 		home.setCheckinDate("05/02/2021");
-		home.setCheckoutDate("06/02/2021");
+		home.setCheckoutDate("06/02/2021");*/
+		home.setCheckinDate();
+		home.setCheckoutDate();
 		home.setSearchBtn();
 		
 		/*5. Verify the following error message is displayed: “Your partial check-in and check-out dates must fall within your arrival and departure dates. Please review your dates.”*/ 
@@ -227,13 +213,9 @@ public class SeleniumBasicTest extends BaseTest {
 		
 	}
 	
-	@Test(groups= {"test5", "test"})
-	public void cruises(){
+	@Test(groups= {"test5", "test"}, dataProvider = "CruiserInfo")
+	public void cruises(String cruiseDestination, int monthsForwardFromNow, int adultsCruiseNumber){
 		HomePage home = getHomePage();
-		
-		String cruiseDestination="Europe";
-		String cruiseStartDate="01/05/2021";
-		int adultsCruiseNumber = 2;
 		
 		/*1. Go to Cruises page. */
 		home.setCruisesTabSelect();
@@ -242,18 +224,16 @@ public class SeleniumBasicTest extends BaseTest {
 		home.setCruisesDestination(cruiseDestination);
 		
 		/*3. In the “Departure month” dropdown select a month.  Do the Search */
-		home.setStartCruiseDate(cruiseStartDate);
+		home.setStartCruiseDate(monthsForwardFromNow);
 		home.SetAdultsCruiseNumber(adultsCruiseNumber);
 		
 		CruiseSearchPage cruiseSearch = home.setSearchCruises();
-		
-		int fareWithoutCorrectDestination = cruiseSearch.fareWithoutCorrectDestination;
 		
 		/*4. Verify the Filter information selected before appears in the refine results section below each dropdown.
 		 * Note: for this point I just made some verifications on the page because I didn't find the results section*/
 		Assert.assertEquals(cruiseSearch.getDestinationSelected(), cruiseDestination);
 		Assert.assertTrue(cruiseSearch.getAdultsNumberSelected()==adultsCruiseNumber, "The amount of adults selected doesn't match with the amount showed on the search page");
-		Assert.assertTrue(cruiseSearch.isCorrectDestinationPresentInAllFares(cruiseDestination), "The fare Number " + (fareWithoutCorrectDestination+1) + " Does not have the destination " + cruiseDestination);
+		Assert.assertTrue(cruiseSearch.isCorrectDestinationPresentInAllFares(cruiseDestination), "The fare Number " + (cruiseSearch.getFareWithoutCorrectDestination() + 1) + " Does not have the destination " + cruiseDestination);
 		
 		/*5. In the “Cruise Length” filter, select “10-14 nights” (Verify this information is displayed below the dropdown).  */
 		cruiseSearch.setNights10To14FilterCheckbox();
@@ -268,12 +248,13 @@ public class SeleniumBasicTest extends BaseTest {
 		cabinCategory.chageOfTab();
 		
 		/*8. Validate that cruise information is displayed for the selected one */
-		Assert.assertTrue(cabinCategory.getTitleSelected().equalsIgnoreCase(cruiseSearch.titleFareSelected), "The title fare selected does not match with the one that appears on "
-				+ "the Cabin Category page. Expected: " + cruiseSearch.titleFareSelected + ", but found: " + cabinCategory.getTitleSelected());
-		Assert.assertTrue(cabinCategory.getCruiseDateSelected().contains(cruiseSearch.departureDateSelected), "The departure date selected does not match with the one that "
-				+ "appears on the Cabin Category page. Expected: " + cruiseSearch.departureDateSelected + ", but found: " + cabinCategory.getCruiseDateSelected());
-		Assert.assertTrue(cabinCategory.getDepartureCitySelected().equalsIgnoreCase(cruiseSearch.departureCitySelected), "The departure city selected does not match with the one "
-				+ "that appears on the Cabin Category page. Expected: " + cruiseSearch.departureCitySelected + ", but found: " + cabinCategory.getDepartureCitySelected());
+		Assert.assertTrue(cabinCategory.getTitleSelected().equalsIgnoreCase(cruiseSearch.getTitleFareSelected()), "The title fare selected does not match with the one that appears on "
+				+ "the Cabin Category page. Expected: " + cruiseSearch.getTitleFareSelected() + ", but found: " + cabinCategory.getTitleSelected());
+		Assert.assertTrue(cabinCategory.getCruiseDateSelected().contains(cruiseSearch.getDepartureDateSelected()), "The departure date selected does not match with the one that "
+				+ "appears on the Cabin Category page. Expected: " + cruiseSearch.getDepartureDateSelected() + ", but found: " + cabinCategory.getCruiseDateSelected());
+		Assert.assertTrue(cabinCategory.getDepartureCitySelected().contains(cruiseSearch.getDepartureCitySelected()), "The departure city selected does not match with the one "
+				+ "that appears on the Cabin Category page. Expected: " + cruiseSearch.getDepartureCitySelected() + ", but found: " + cabinCategory.getDepartureCitySelected());
 		
 	}
+	
 }

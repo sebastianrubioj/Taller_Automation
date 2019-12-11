@@ -1,7 +1,5 @@
 package com.globant.training.app.pages.travelocity;
 
-import java.util.Set;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,68 +7,96 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
 
+/**
+ * Flight Information Page.
+ * 
+ * @author sebastian.rubio
+ *
+ */
+
 public class FlightInformationPage extends BasePage {
 
 	private final String TOTAL_PRICE = ".desktopView .packagePriceTotal";
 	private final String FLIGHT_INFO = "flightSummary";
 	private final String PRICE_GUARANTEE = ".desktopView .priceGuarantee";
 	private final String CONTINUE_BOOKING_BTN = "bookButton";
-	//private final String DEPARTURE_INFO = "div.OD0";
-	//private final String RETURN_INFO = "div.OD1";
-	
+
 	public FlightInformationPage(WebDriver pDriver) {
 		super(pDriver);
+		setLoggerInfo("Going to flight information page");
 	}
-	
+
 	@FindBy(css = TOTAL_PRICE)
 	private WebElement totalPrice;
-	
+
 	@FindBy(className = FLIGHT_INFO)
 	private WebElement flightInfo;
-	
-	@FindBy(css= PRICE_GUARANTEE)
+
+	@FindBy(css = PRICE_GUARANTEE)
 	private WebElement priceGuarantee;
-	
-	@FindBy(id= CONTINUE_BOOKING_BTN)
+
+	@FindBy(id = CONTINUE_BOOKING_BTN)
 	private WebElement continueBookingBtn;
-	
-	
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the total price is present
+	 * @return boolean
+	 */
+
 	public boolean getTotalPricePresent() {
-		String currentHandle = getDriver().getWindowHandle();
-		Set<String> allHandles = getDriver().getWindowHandles();
-		allHandles.remove(currentHandle);
-		getDriver().switchTo().window((String) allHandles.toArray()[0]);
-		
 		getWait().until(ExpectedConditions.visibilityOf(totalPrice));
 		boolean pricePresent = false;
-		if(totalPrice.isDisplayed() && totalPrice.getText() != null) {
+		if (totalPrice.isDisplayed() && totalPrice.getText() != null) {
 			pricePresent = true;
-			System.out.println("the total price of the flight is: " + totalPrice.getText());
+			setLoggerInfo("the total price of the flight is: " + totalPrice.getText());
 		}
 		return pricePresent;
 	}
-	
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the flight info is present
+	 * @return boolean
+	 */
+
 	public boolean getFlightInfoIsPresent() {
-		boolean infoPresent= false;
-		if(flightInfo.isDisplayed()) {
+		boolean infoPresent = false;
+		if (flightInfo.isDisplayed()) {
 			infoPresent = true;
 		}
 		return infoPresent;
 	}
-	
-	public boolean getFlightGuaranteeTextPresent (){
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if the "flight guarantee" text is present
+	 * @return boolean
+	 */
+
+	public boolean getFlightGuaranteeTextPresent() {
 		boolean flightGuaranteePresent = false;
-		
-		if(priceGuarantee.isDisplayed() && !priceGuarantee.getText().isEmpty()) {
+
+		if (priceGuarantee.isDisplayed() && !priceGuarantee.getText().isEmpty()) {
 			flightGuaranteePresent = true;
 		}
-		
+
 		return flightGuaranteePresent;
 	}
-	
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: Click to continue the booking
+	 * @return FlightCheckoutPage
+	 */
+
 	public FlightCheckoutPage setContinueBooking() {
 		continueBookingBtn.click();
 		return new FlightCheckoutPage(this.getDriver());
 	}
-	
+
 }
