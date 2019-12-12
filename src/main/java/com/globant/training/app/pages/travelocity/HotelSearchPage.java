@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
  * Hotel Search Page.
@@ -33,7 +34,7 @@ public class HotelSearchPage extends BasePage {
 	private final String HOTEL_FARE_MESSAGE = "span[class='uitk-badge-text']";
 	private final String ALL_FARES_HOTEL = "[data-stid='section-results']";
 	private final String MEMBER_DISCOUNT_MESSAGE = "[class='messaging-card__subtitle uitk-type-200']";
-	private final String SPONSOR_MESSAGE_CONTAINER = "[class='uitk-cell all-cell-shrink all-cell-align-bottom uitk-type-right']";
+	private Utils util = new Utils(getDriver());
 
 	private String priceSelected;
 	private double starsNumberSelected;
@@ -80,9 +81,6 @@ public class HotelSearchPage extends BasePage {
 
 	@FindBy(css = MEMBER_DISCOUNT_MESSAGE)
 	private WebElement memberDiscountMessage;
-
-	@FindAll({ @FindBy(css = SPONSOR_MESSAGE_CONTAINER) })
-	private List<WebElement> sponsorMessageList;
 
 	protected HotelSearchPage(WebDriver pDriver) {
 		super(pDriver);
@@ -199,6 +197,7 @@ public class HotelSearchPage extends BasePage {
 	}
 
 	public String getPriceSelected() {
+		util.chageOfTab();
 		return priceSelected;
 	}
 

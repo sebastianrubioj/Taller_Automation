@@ -76,7 +76,7 @@ public class FlightSearchPage extends BasePage {
 	 * @return boolean
 	 */
 
-	public boolean getDropDownBox() {
+	public boolean areAllDropDownBoxOptions() {
 		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
 		getWait().until(ExpectedConditions.elementToBeClickable(sortDropdownElement));
 		boolean allSortOptionsPresent = false;
@@ -98,26 +98,9 @@ public class FlightSearchPage extends BasePage {
 	 * @return boolean
 	 */
 
-	public boolean getselectBtnForAllFlights() {
-		boolean buttonPresent = false;
-		getWait().until(ExpectedConditions.invisibilityOf(progressBar));
-
-		// Comparison between the number of fare select buttons and the number of fares
-		if (flightSelectBtn.size() == allFlightList.size()) {
-			buttonPresent = true;
-			for (int i = 0; i < allFlightList.size(); i++) {
-				if (!flightSelectBtn.get(i).isDisplayed()) {
-					buttonPresent = false;
-					setButtonMissed(i);
-					break;
-				}
-			}
-		} else {
-			setLoggerInfo("Comparison between the number of fare search buttons and the number of fares doesn't match");
-		}
+	public boolean isSelectBtnForAllFlights() {
 		setLoggerInfo("Number of select Button: " + flightSelectBtn.size());
-
-		return buttonPresent;
+		return isPresentForAllFares(flightSelectBtn);
 	}
 
 	/**
@@ -128,25 +111,9 @@ public class FlightSearchPage extends BasePage {
 	 * @return boolean
 	 */
 
-	public boolean getFlightDurationForAllFares() {
-		boolean flightDurationPresent = false;
-
-		if (FlightDuration.size() == allFlightList.size()) {
-			flightDurationPresent = true;
-
-			for (int i = 0; i < allFlightList.size(); i++) {
-				if (!FlightDuration.get(i).isDisplayed()) {
-					flightDurationPresent = false;
-					setDurationMissed(i);
-					break;
-				}
-			}
-		} else {
-			setLoggerInfo("Comparison between the number of flight durations and the number of fares doesn't match");
-		}
+	public boolean isFlightDurationForAllFares() {
 		setLoggerInfo("Number of Flight Duration info: " + FlightDuration.size());
-
-		return flightDurationPresent;
+		return isPresentForAllFares(FlightDuration);
 	}
 
 	/**
@@ -157,25 +124,10 @@ public class FlightSearchPage extends BasePage {
 	 * @return boolean
 	 */
 
-	public boolean getFlightDetailsForAllFares() {
-		boolean flightDetailsPresent = false;
-
-		if (flightDetailsAndFees.size() == allFlightList.size()) {
-			flightDetailsPresent = true;
-
-			for (int i = 0; i < allFlightList.size(); i++) {
-				if (!flightDetailsAndFees.get(i).isDisplayed()) {
-					flightDetailsPresent = false;
-					setFareDetailMissed(i);
-					break;
-				}
-			}
-		} else {
-			setLoggerInfo("Comparison between the number of flight details and the number of fares doesn't match");
-		}
+	public boolean isFlightDetailsForAllFares() {
 		setLoggerInfo("Number of Detail and Fees: " + flightDetailsAndFees.size());
 		setLoggerInfo("Number of fares: " + allFlightList.size());
-		return flightDetailsPresent;
+		return isPresentForAllFares(flightDetailsAndFees);
 	}
 
 	public void setStoreByDuration() {
@@ -191,7 +143,7 @@ public class FlightSearchPage extends BasePage {
 	 * @return boolean
 	 */
 
-	public boolean getFaresOrderByDuration() {
+	public boolean areFaresOrderByDuration() {
 
 		boolean faresOrdered = true;
 
@@ -200,19 +152,10 @@ public class FlightSearchPage extends BasePage {
 
 		for (int i = 0; i < FlightDuration.size() - 1; i++) {
 
-			String a = FlightDuration.get(i).getText();
-			String[] number = a.split(" ");
-			String filtered1 = number[0].replaceAll("h", "");
-			String filtered2 = number[1].replaceAll("m", "");
-			int hour = Integer.parseInt(filtered1);
-			int min = Integer.parseInt(filtered2);
-
-			String b = FlightDuration.get(i + 1).getText();
-			String[] number2 = b.split(" ");
-			String filtered3 = number2[0].replaceAll("h", "");
-			String filtered4 = number2[1].replaceAll("m", "");
-			int hour2 = Integer.parseInt(filtered3);
-			int min2 = Integer.parseInt(filtered4);
+			int hour = getDuration(i, 0, "h");
+			int min = getDuration(i, 1, "m");
+			int hour2 = getDuration(i + 1, 0, "h");
+			int min2 = getDuration(i + 1, 1, "m");
 
 			if (hour > hour2) {
 				faresOrdered = false;
@@ -319,6 +262,51 @@ public class FlightSearchPage extends BasePage {
 		} else {
 			setLoggerInfo("Modal Wasn't Displayed");
 		}
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return true if an element is present in all the fares
+	 * @param elementList : List<WebElement>
+	 * @return boolean
+	 */
+
+	public boolean isPresentForAllFares(List<WebElement> elementList) {
+		boolean elementPresent = false;
+
+		if (elementList.size() == allFlightList.size()) {
+			elementPresent = true;
+
+			for (int i = 0; i < allFlightList.size(); i++) {
+				if (!elementList.get(i).isDisplayed()) {
+					elementPresent = false;
+					setDurationMissed(i);
+					break;
+				}
+			}
+		} else {
+			setLoggerInfo("Comparison between the number of elements and the number of fares doesn't match");
+		}
+
+		return elementPresent;
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: return an integer Obtained from the flight duration info
+	 * @param flightIndex  : Integer
+	 * @param stringIndex  : Integer
+	 * @param textToRemove : String
+	 * @return Integer
+	 */
+	public int getDuration(int flightIndex, int stringIndex, String textToRemove) {
+		String a = FlightDuration.get(flightIndex).getText();
+		String[] number = a.split(" ");
+		String filtered1 = number[stringIndex].replaceAll(textToRemove, "");
+		int time = Integer.parseInt(filtered1);
+		return time;
 	}
 
 	public int getButtonMissed() {

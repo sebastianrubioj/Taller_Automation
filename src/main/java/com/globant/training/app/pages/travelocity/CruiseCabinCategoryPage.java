@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
  * Cruise Cabin Category Page.
@@ -19,7 +20,7 @@ public class CruiseCabinCategoryPage extends BasePage {
 	private final String TITLE_FARE_SELECTED = "[class='small-title trip-title']";
 	private final String CRUISE_DATE_SELECTED = "departure-date";
 	private final String DEPARTURE_CITY_SELECTED = "departure-port";
-
+	
 	@FindBy(css = TITLE_FARE_SELECTED)
 	private WebElement titleFareSelected;
 

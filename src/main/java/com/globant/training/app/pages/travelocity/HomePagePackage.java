@@ -1,18 +1,15 @@
 package com.globant.training.app.pages.travelocity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
- * Home Page.
+ * Home Page Package Tab.
  * 
  * @author sebastian.rubio
  *
@@ -20,54 +17,33 @@ import com.globant.training.app.pages.BasePage;
 
 public class HomePagePackage extends BasePage {
 
-	private final String FLIGHT_HOTEL_CAR_BTN = "[for='fhc-fhc-hp-package']";
+	private final String FLIGHT_HOTEL_CAR_TAB = "[for='fhc-fhc-hp-package']";
 	private final String DEPARTURE_PACKAGE = "package-origin-hp-package";
 	private final String RETURN_PACKAGE = "package-destination-hp-package";
 	private final String DEPARTURE_PACKAGE_DATE = "package-departing-hp-package";
 	private final String RETURN_PACKAGE_DATE = "package-returning-hp-package";
 	private final String SEARCH_PACKAGE_BTN = "search-button-hp-package";
-	private final String AUTOCOMPLETED_DROPDOWN = "typeaheadDataPlain";
-	private final String DATE_DROPDOWN = "datepicker-cal";
 	private final String NEXT_MONTH_BTN = "datepicker-next";
-	/*
-	 * To select the day I decided to use this xpath so I can be sure that whenever
-	 * you run this scenario this will select a date three months later
-	 */
-	private final String DATE_PICKER_DAY = "//div[@class='datepicker-cal-month'][2]//tr[2]//td[@class='datepicker-day-number notranslate'][1]";
 	private final String DATE_PICKER_DAY_13 = "//div[@class='datepicker-cal-month'][2]//tr[3]//td[@class='datepicker-day-number notranslate'][7]";
-	private final String PACKAGES_BTN = "tab-package-tab-hp";
 	private final String ADULTS_NUMBER = "package-1-adults-hp-package";
 	private final String FLIGHT_HOTEL_BTN = "[class='check col gcw-option'][for='fh-fh-hp-package']";
 	private final String PARTIAL_STAY_CHECKBOX = "partialHotelBooking-hp-package";
 	private final String CHECK_IN_DATE = "package-checkin-hp-package";
 	private final String CHECK_OUT_DATE = "package-checkout-hp-package";
-	private final String ERROR_MESSAGE_MISMATCH_DATES = "//div[@class='alert alert-error validation-alert']//li[2]//a[@class='error-link']";
 	private final String ERROR_LINK = "error-link";
-	private Calendar date = Calendar.getInstance();
-	
-	@FindBy(css = FLIGHT_HOTEL_CAR_BTN)
-	private WebElement flightHotelCarButton;
-	
+	private Utils util = new Utils(getDriver());
+
+	@FindBy(css = FLIGHT_HOTEL_CAR_TAB)
+	private WebElement flightHotelCarTab;
+
 	@FindBy(id = DEPARTURE_PACKAGE)
 	private WebElement departurePackageInput;
-	
-	@FindBy(className = DATE_DROPDOWN)
-	private WebElement datePickerDropdown;
-
-	@FindBy(id = AUTOCOMPLETED_DROPDOWN)
-	private WebElement autocompletedDropdown;
 
 	@FindBy(className = NEXT_MONTH_BTN)
 	private WebElement nextMonthBtn;
 
-	@FindBy(xpath = DATE_PICKER_DAY)
-	private WebElement datePickerDay;
-
 	@FindBy(xpath = DATE_PICKER_DAY_13)
 	private WebElement datePickerDay13;
-
-	@FindBy(id = PACKAGES_BTN)
-	private WebElement packagesButton;
 
 	@FindBy(id = RETURN_PACKAGE)
 	private WebElement returnPackageInput;
@@ -83,7 +59,7 @@ public class HomePagePackage extends BasePage {
 
 	@FindBy(id = ADULTS_NUMBER)
 	private WebElement adultsNumber;
-	
+
 	@FindBy(css = FLIGHT_HOTEL_BTN)
 	private WebElement flightHotelTab;
 
@@ -96,9 +72,6 @@ public class HomePagePackage extends BasePage {
 	@FindBy(id = CHECK_OUT_DATE)
 	private WebElement checkoutDate;
 
-	@FindBy(xpath = ERROR_MESSAGE_MISMATCH_DATES)
-	private WebElement mismatchDatesMessage;
-
 	@FindBy(className = ERROR_LINK)
 	private WebElement errorLink;
 
@@ -106,45 +79,66 @@ public class HomePagePackage extends BasePage {
 		super(pDriver);
 	}
 
-	
-	public void setFlightHotelAndCar() {
-		flightHotelCarButton.click();
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: select flight + hotel + car option
+	 */
+	public void setFlightHotelAndCarTab() {
+		flightHotelCarTab.click();
 	}
 
 	/**
 	 * @author sebastian.rubio
 	 *
-	 * @description: Set departure package
+	 * @description: select flight + hotel option
+	 */
+	public void setFlightHotelTab() {
+		flightHotelTab.click();
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: Set departure Info to start the package reservation
 	 * @param departureFlight : String
+	 * @param returnFlight    : String
+	 * @param adultsNumber    : Integer
 	 */
-
-	public void setDeparturePackage(String departureFlight) {
-		setInputString(departurePackageInput, departureFlight);
+	public void setPackageInfo(String departureFlight, String returnFlight, int adultsNumber) {
+		util.setInputString(departurePackageInput, departureFlight);
+		util.setInputString(returnPackageInput, returnFlight);
+		showPackageCalendar(departurePackageDate, 1);
+		util.clickDayPickerDate();
+		showPackageCalendar(returnPackageDate);
+		datePickerDay13.click();
+		setNumberOfAdults(adultsNumber);
 	}
 
 	/**
 	 * @author sebastian.rubio
 	 *
-	 * @description: Set return package
-	 * @param returnFlight : String
+	 * @description: Actions to get ready to select a date on the calendar picker
+	 * @param element : WebElement
 	 */
-
-	public void setReturnPackage(String returnFlight) {
-		setInputString(returnPackageInput, returnFlight);
+	public void showPackageCalendar(WebElement element) {
+		element.click();
+		util.waitUntilDropdonwn();
 	}
 
-	public void setDeparturePackageDate() {
-		departurePackageDate.click();
-		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		nextMonthBtn.click();
-		// nextMonthBtn.click();
-		datePickerDay.click();
-	}
-
-	public void setReturnPackageDate() {
-		returnPackageDate.click();
-		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		datePickerDay13.click();
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: Actions to get ready to select a date on the calendar picker
+	 * @param element           : WebElement
+	 * @param nextMonthBtnTimes : Integer
+	 */
+	public void showPackageCalendar(WebElement element, int nextMonthBtnTimes) {
+		element.click();
+		util.waitUntilDropdonwn();
+		for (int i = 0; i < nextMonthBtnTimes; i++) {
+			nextMonthBtn.click();
+		}
 	}
 
 	/**
@@ -169,17 +163,6 @@ public class HomePagePackage extends BasePage {
 		adultsNumber.sendKeys(adults.toString());
 	}
 
-
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: select flight + hotel option
-	 */
-	public void setFlightHotelTab() {
-		packagesButton.click();
-		flightHotelTab.click();
-	}
-
 	public void setPartialStayCheckbox() {
 		partialStayCheckbox.click();
 	}
@@ -191,7 +174,7 @@ public class HomePagePackage extends BasePage {
 	 */
 
 	public void setCheckinDate() {
-		setDateForward(checkinDate, 8);
+		util.setDateForward(checkinDate, 8);
 	}
 
 	/**
@@ -201,7 +184,7 @@ public class HomePagePackage extends BasePage {
 	 */
 
 	public void setCheckoutDate() {
-		setDateForward(checkoutDate, 9);
+		util.setDateForward(checkoutDate, 9);
 	}
 
 	public String getMismatchDatesErrorMessage() {
@@ -209,43 +192,4 @@ public class HomePagePackage extends BasePage {
 		return errorLink.getText();
 	}
 
-
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: Set input to any text box on Home Page
-	 * @param inputElement : WebElement
-	 * @param inputString  : String
-	 * 
-	 */
-
-	public void setInputString(WebElement inputElement, String inputString) {
-		getWait().until(ExpectedConditions.visibilityOf(inputElement));
-		getWait().until(ExpectedConditions.elementToBeClickable(inputElement));
-		inputElement.sendKeys(inputString);
-		inputElement.sendKeys(Keys.SPACE);
-		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
-		inputElement.sendKeys(Keys.TAB);
-	}
-
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: Set a date an amount of months forward from the current date
-	 * @param inputElement : WebElement
-	 * @param inputString  : String
-	 * 
-	 */
-
-	public void setDateForward(WebElement element, int monthsForward) {
-		getWait().until(ExpectedConditions.visibilityOf(element));
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-		date.setTime(new Date());
-		date.add(Calendar.MONTH, monthsForward);
-		element.click();
-		element.clear();
-		setLoggerInfo("check out date: " + formatter.format(date.getTime()));
-		element.sendKeys(formatter.format(date.getTime()));
-	}
 }
-

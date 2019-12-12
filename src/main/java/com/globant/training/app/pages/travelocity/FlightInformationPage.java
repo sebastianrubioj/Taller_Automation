@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
  * Flight Information Page.
@@ -20,7 +21,8 @@ public class FlightInformationPage extends BasePage {
 	private final String FLIGHT_INFO = "flightSummary";
 	private final String PRICE_GUARANTEE = ".desktopView .priceGuarantee";
 	private final String CONTINUE_BOOKING_BTN = "bookButton";
-
+	private Utils util = new Utils(getDriver());
+	
 	public FlightInformationPage(WebDriver pDriver) {
 		super(pDriver);
 		setLoggerInfo("Going to flight information page");
@@ -37,7 +39,7 @@ public class FlightInformationPage extends BasePage {
 
 	@FindBy(id = CONTINUE_BOOKING_BTN)
 	private WebElement continueBookingBtn;
-
+	
 	/**
 	 * @author sebastian.rubio
 	 *
@@ -46,6 +48,7 @@ public class FlightInformationPage extends BasePage {
 	 */
 
 	public boolean getTotalPricePresent() {
+		util.chageOfTab();
 		getWait().until(ExpectedConditions.visibilityOf(totalPrice));
 		boolean pricePresent = false;
 		if (totalPrice.isDisplayed() && totalPrice.getText() != null) {
@@ -96,6 +99,7 @@ public class FlightInformationPage extends BasePage {
 
 	public FlightCheckoutPage setContinueBooking() {
 		continueBookingBtn.click();
+		//getWait().until(ExpectedConditions.invisibilityOf(spinerLoader));
 		return new FlightCheckoutPage(this.getDriver());
 	}
 

@@ -1,6 +1,5 @@
 package com.globant.training.app.pages;
 
-import java.util.Set;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -15,7 +14,7 @@ public abstract class BasePage {
 
 	protected BasePage(WebDriver pDriver) {
 		PageFactory.initElements(pDriver, this);
-		int timeout = 20;
+		int timeout = 30;
 		wait = new WebDriverWait(pDriver, timeout);
 		driver = pDriver;
 		actions = new Actions(driver);
@@ -54,15 +53,4 @@ public abstract class BasePage {
 		logger.info(info);
 	}
 
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: method to change the browser tab to continue the flow
-	 */
-	public void chageOfTab() {
-		String currentHandle = getDriver().getWindowHandle();
-		Set<String> allHandles = getDriver().getWindowHandles();
-		allHandles.remove(currentHandle);
-		getDriver().switchTo().window((String) allHandles.toArray()[0]);
-	}
 }

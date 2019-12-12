@@ -59,6 +59,7 @@ public class FlightCheckoutPage extends BasePage{
 	
 	public boolean isFlightProductSummaryPresent() {
 		boolean productSummaryPresent = false;
+		getWait().until(ExpectedConditions.visibilityOf(firstNameInput));
 		getWait().until(ExpectedConditions.visibilityOf(productSummary.get(0)));
 		
 		if(productSummary.get(0).isDisplayed()) {

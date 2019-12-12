@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
  * Cruise Search Page.
@@ -30,6 +31,7 @@ public class CruiseSearchPage extends BasePage {
 	private final String FARE_CRUISES_LIST = "flex-card";
 	private final String DEPARTURE_DATE_LIST = "departing-on";
 	private final String DEPARTURE_CITY_LIST = "subtitle-on-ship-image";
+	private Utils util = new Utils(getDriver());
 
 	private int fareWithoutCorrectDestination;
 	private String titleFareSelected;
@@ -179,6 +181,7 @@ public class CruiseSearchPage extends BasePage {
 
 	public CruiseCabinCategoryPage setHigerDiscountFare() {
 		getDriver().findElement(By.xpath(getHighestPromo())).click();
+		util.chageOfTab();
 		return new CruiseCabinCategoryPage(this.getDriver());
 	}
 

@@ -1,18 +1,15 @@
 package com.globant.training.app.pages.travelocity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globant.training.app.pages.BasePage;
+import com.globant.training.app.pages.Utils;
 
 /**
- * Home Page.
+ * Home Page Hotel Tab.
  * 
  * @author sebastian.rubio
  *
@@ -20,30 +17,10 @@ import com.globant.training.app.pages.BasePage;
 
 public class HomePageHotel extends BasePage {
 
-	private final String AUTOCOMPLETED_DROPDOWN = "typeaheadDataPlain";
-	private final String DATE_DROPDOWN = "datepicker-cal";
-	/*
-	 * To select the day I decided to use this xpath so I can be sure that whenever
-	 * you run this scenario this will select a date three months later
-	 */
-	private final String DATE_PICKER_DAY = "//div[@class='datepicker-cal-month'][2]//tr[2]//td[@class='datepicker-day-number notranslate'][1]";
-	private final String HOTEL_TAB = "tab-hotel-tab-hp";
 	private final String HOTEL_DESTINATION_INPUT = "hotel-destination-hp-hotel";
 	private final String HOTEL_SEARCH_BTN = "[data-gcw-datapreloading-function='hotels'] [data-gcw-change-submit-text='Search']";
 	private final String HOTEL_CHECKIN_DATE = "hotel-checkin-hp-hotel";
-	private Calendar date = Calendar.getInstance();
-
-	@FindBy(id = AUTOCOMPLETED_DROPDOWN)
-	private WebElement autocompletedDropdown;
-
-	@FindBy(className = DATE_DROPDOWN)
-	private WebElement datePickerDropdown;
-
-	@FindBy(xpath = DATE_PICKER_DAY)
-	private WebElement datePickerDay;
-
-	@FindBy(id = HOTEL_TAB)
-	private WebElement hotelTab;
+	private Utils util = new Utils(getDriver());
 
 	@FindBy(id = HOTEL_DESTINATION_INPUT)
 	private WebElement hotelDestinationInput;
@@ -58,7 +35,6 @@ public class HomePageHotel extends BasePage {
 		super(pDriver);
 	}
 
-
 	/**
 	 * @author sebastian.rubio
 	 *
@@ -67,7 +43,7 @@ public class HomePageHotel extends BasePage {
 	 */
 
 	public void setHotelDestination(String destination) {
-		setInputString(hotelDestinationInput, destination);
+		util.setInputString(hotelDestinationInput, destination);
 	}
 
 	/**
@@ -99,50 +75,13 @@ public class HomePageHotel extends BasePage {
 	/**
 	 * @author sebastian.rubio
 	 *
-	 * @description: 
+	 * @description:
 	 * @return HotelSearchPage
 	 */
 	public void setHotelCheckinDate() {
 		hotelCheckinDate.click();
-		getWait().until(ExpectedConditions.visibilityOf(datePickerDropdown));
-		datePickerDay.click();
+		util.waitUntilDropdonwn();
+		util.clickDayPickerDate();
 	}
 
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: Set input to any text box on Home Page
-	 * @param inputElement : WebElement
-	 * @param inputString  : String
-	 * 
-	 */
-
-	public void setInputString(WebElement inputElement, String inputString) {
-		getWait().until(ExpectedConditions.visibilityOf(inputElement));
-		getWait().until(ExpectedConditions.elementToBeClickable(inputElement));
-		inputElement.sendKeys(inputString);
-		inputElement.sendKeys(Keys.SPACE);
-		getWait().until(ExpectedConditions.visibilityOf(autocompletedDropdown));
-		inputElement.sendKeys(Keys.TAB);
-	}
-
-	/**
-	 * @author sebastian.rubio
-	 *
-	 * @description: Set a date an amount of months forward from the current date
-	 * @param inputElement : WebElement
-	 * @param inputString  : String
-	 * 
-	 */
-
-	public void setDateForward(WebElement element, int monthsForward) {
-		getWait().until(ExpectedConditions.visibilityOf(element));
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-		date.setTime(new Date());
-		date.add(Calendar.MONTH, monthsForward);
-		element.click();
-		element.clear();
-		setLoggerInfo("check out date: " + formatter.format(date.getTime()));
-		element.sendKeys(formatter.format(date.getTime()));
-	}
 }
