@@ -6,11 +6,11 @@
 	<test name="Page Object Test">
 		<groups>
 			<run>
-				<exclude name="test1" />
+				<include name="test1" />
 				<include name="test2" />
-				<exclude name="test3" />
+				<include name="test3" />
 				<include name="test4" />
-				<exclude name="test5" />
+				<include name="test5" />
 			</run>
 		</groups>
 		<classes>
