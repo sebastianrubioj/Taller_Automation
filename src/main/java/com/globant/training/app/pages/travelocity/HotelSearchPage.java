@@ -112,18 +112,8 @@ public class HotelSearchPage extends BasePage {
 		getWait().until(ExpectedConditions.attributeContains(allFaresPackage, "class", "container no-outline"));
 		setLoggerInfo("the price list size is: " + pricesList.size());
 		for (int i = 0; i < pricesList.size() - 1; i++) {
-			String a = pricesList.get(i).getText();
-			String priceFiltered = a.trim();
-			String priceFilteredd = priceFiltered.replace(",", "");
-			String priceFiltered1 = priceFilteredd.replace("$", "");
-			int price1 = Integer.parseInt(priceFiltered1);
-
-			String b = pricesList.get(i + 1).getText();
-			String priceFilteredb = b.trim();
-			String priceFiltereddb = priceFilteredb.replace(",", "");
-			String priceFilteredb1 = priceFiltereddb.replace("$", "");
-			int price2 = Integer.parseInt(priceFilteredb1);
-
+			int price1 = getPriceFromHotelList(i);
+			int price2 = getPriceFromHotelList(i + 1);
 			if (price1 > price2) {
 				pricesOrdered = false;
 				break;
@@ -133,6 +123,22 @@ public class HotelSearchPage extends BasePage {
 
 		return pricesOrdered;
 
+	}
+
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: get the price from an specific hotel fare
+	 * @param hotelIndex : Integer
+	 * @return Integer
+	 */
+	public int getPriceFromHotelList(int hotelIndex) {
+		String a = pricesList.get(hotelIndex).getText();
+		String priceWithoutSpaces = a.trim();
+		String priceFiltered1 = priceWithoutSpaces.replace(",", "");
+		String priceFiltered2 = priceFiltered1.replace("$", "");
+		int number = Integer.parseInt(priceFiltered2);
+		return number;
 	}
 
 	/**
@@ -201,6 +207,23 @@ public class HotelSearchPage extends BasePage {
 		return priceSelected;
 	}
 
+	public String getOriginCity() {
+		getWait().until(ExpectedConditions.visibilityOf(headerMessage));
+		return cityOfOrigin.getText();
+	}
+
+	public String getDestinationCity() {
+		return cityOfDestination.getText();
+	}
+
+	public String getHeaderMessage() {
+		return headerMessage.getText();
+	}
+
+	public int getNumberOfRooms() {
+		return Integer.parseInt(numberOfRooms.getText());
+	}
+	
 	public void setPriceSelected(String priceSelected) {
 		this.priceSelected = priceSelected;
 	}
@@ -219,22 +242,5 @@ public class HotelSearchPage extends BasePage {
 
 	public void setHotelNameSelected(String hotelNameSelected) {
 		this.hotelNameSelected = hotelNameSelected;
-	}
-
-	public String getOriginCity() {
-		getWait().until(ExpectedConditions.visibilityOf(headerMessage));
-		return cityOfOrigin.getText();
-	}
-
-	public String getDestinationCity() {
-		return cityOfDestination.getText();
-	}
-
-	public String getHeaderMessage() {
-		return headerMessage.getText();
-	}
-
-	public int getNumberOfRooms() {
-		return Integer.parseInt(numberOfRooms.getText());
 	}
 }

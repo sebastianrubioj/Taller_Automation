@@ -66,9 +66,7 @@ public class HomePageHotel extends BasePage {
 	 * @return HotelSearchPage
 	 */
 	public HotelSearchPage setSearchHotel() {
-		getWait().until(ExpectedConditions.visibilityOf(hotelSearchBtn));
-		getWait().until(ExpectedConditions.elementToBeClickable(hotelSearchBtn));
-		hotelSearchBtn.click();
+		click(hotelSearchBtn);
 		return new HotelSearchPage(this.getDriver());
 	}
 

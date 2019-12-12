@@ -47,9 +47,7 @@ public class HomePageCruise extends BasePage {
 	 */
 
 	public void setCruisesDestination(String destination) {
-		getWait().until(ExpectedConditions.visibilityOf(destinationCruisesDropdown));
-		getWait().until(ExpectedConditions.elementToBeClickable(destinationCruisesDropdown));
-		destinationCruisesDropdown.click();
+		click(destinationCruisesDropdown);
 		destinationCruisesDropdown.sendKeys(destination);
 	}
 

@@ -34,11 +34,6 @@ public class FlightSearchPage extends BasePage {
 	private int durationMissed;
 	private int fareDetailMissed;
 
-	public FlightSearchPage(WebDriver pDriver) {
-		super(pDriver);
-		setLoggerInfo("Start flight Search Page");
-	}
-
 	@FindBy(id = SORT_DROPDOWN_BOX)
 	private WebElement sortDropdownElement;
 
@@ -68,6 +63,11 @@ public class FlightSearchPage extends BasePage {
 
 	@FindAll({ @FindBy(className = SORT_OPTIONS) })
 	private List<WebElement> sortOptionList;
+
+	public FlightSearchPage(WebDriver pDriver) {
+		super(pDriver);
+		setLoggerInfo("Start flight Search Page");
+	}
 
 	/**
 	 * @author sebastian.rubio
@@ -229,19 +229,14 @@ public class FlightSearchPage extends BasePage {
 		if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
 			WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
 			flightSelectBtn.get(fareNumber - 1).click();
-
-			getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
-			getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-			selectThisFareBtn.click();
+			click(selectThisFareBtn);
 
 		} else {
 			flightSelectBtn.get(fareNumber - 1).click();
-			if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0) {
+			if (getDriver().findElements(By.xpath(selectFareBtn)).size() != 0
+					&& getDriver().findElement(By.xpath(selectFareBtn)).isEnabled()) {
 				WebElement selectThisFareBtn = getDriver().findElement(By.xpath(selectFareBtn));
-
-				getWait().until(ExpectedConditions.visibilityOf(selectThisFareBtn));
-				getWait().until(ExpectedConditions.elementToBeClickable(selectThisFareBtn));
-				selectThisFareBtn.click();
+				click(selectThisFareBtn);
 			}
 		}
 	}

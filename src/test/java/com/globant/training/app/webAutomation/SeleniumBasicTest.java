@@ -21,11 +21,8 @@ import com.globant.training.app.pages.travelocity.HotelSearchPage;
 
 public class SeleniumBasicTest extends BaseTest {
 
-	/*
-	 * Exercise 1 Begin the process of booking a flight till the complete credit
-	 * card information page.
-	 */
-	@Test(groups = { "test1", "test" }, dataProvider = "Flights")
+	@Test(groups = { "test1",
+			"test" }, dataProvider = "Flights", description = "Exercise 1 Begin the process of booking a flight")
 	public void flightBooking(String departureCity, String returnCity) {
 
 		HomePage home = getHomePage();
@@ -108,11 +105,8 @@ public class SeleniumBasicTest extends BaseTest {
 
 	}
 
-	/*
-	 * Exercise 2 Begin the process of booking a flight with hotel and car.
-	 */
-
-	@Test(groups = { "test2", "test" }, dataProvider = "Flights")
+	@Test(groups = { "test2",
+			"test" }, dataProvider = "Flights", description = "Exercise 2 Begin the process of booking a flight with hotel and car")
 	public void flightHotelCarBooking(String departureCity, String returnCity) {
 
 		HomePage home = getHomePage();
@@ -172,7 +166,7 @@ public class SeleniumBasicTest extends BaseTest {
 		/* 10. Select a car */
 		FlightCheckoutPage checkout = carSearch.setCarToRent(4);
 
-		String carTypeSelected = carSearch.carTypeSelected;
+		String carTypeSelected = carSearch.getCarTypeSelected();
 
 		/*
 		 * 13. Verify the “Who’s traveling” page is opened by choosing at least 5
@@ -194,7 +188,8 @@ public class SeleniumBasicTest extends BaseTest {
 		 */
 	}
 
-	@Test(groups = { "test3", "test" }, dataProvider = "Hotel")
+	@Test(groups = { "test3",
+			"test" }, dataProvider = "Hotel", description = "Exercise 3: Verify that search by hotel name works properly")
 	public void hotelBooking(String hotelDestination) {
 
 		HomePage home = getHomePage();
@@ -223,7 +218,8 @@ public class SeleniumBasicTest extends BaseTest {
 
 	}
 
-	@Test(groups = { "test4", "test" }, dataProvider = "Flights")
+	@Test(groups = { "test4",
+			"test" }, dataProvider = "Flights", description = "Exercise 4:  Verify that the error message displayed...")
 	public void flightHotel(String departureCity, String returnCity) {
 		HomePage home = getHomePage();
 
@@ -255,7 +251,8 @@ public class SeleniumBasicTest extends BaseTest {
 
 	}
 
-	@Test(groups = { "test5", "test" }, dataProvider = "CruiserInfo")
+	@Test(groups = { "test5",
+			"test" }, dataProvider = "CruiserInfo", description = "Exercise 5:  Cruises discount is displayed ")
 	public void cruises(String cruiseDestination, int monthsForwardFromNow, int adultsCruiseNumber) {
 		HomePage home = getHomePage();
 

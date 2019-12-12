@@ -22,11 +22,6 @@ public class FlightInformationPage extends BasePage {
 	private final String PRICE_GUARANTEE = ".desktopView .priceGuarantee";
 	private final String CONTINUE_BOOKING_BTN = "bookButton";
 	private Utils util = new Utils(getDriver());
-	
-	public FlightInformationPage(WebDriver pDriver) {
-		super(pDriver);
-		setLoggerInfo("Going to flight information page");
-	}
 
 	@FindBy(css = TOTAL_PRICE)
 	private WebElement totalPrice;
@@ -39,7 +34,12 @@ public class FlightInformationPage extends BasePage {
 
 	@FindBy(id = CONTINUE_BOOKING_BTN)
 	private WebElement continueBookingBtn;
-	
+
+	public FlightInformationPage(WebDriver pDriver) {
+		super(pDriver);
+		setLoggerInfo("Going to flight information page");
+	}
+
 	/**
 	 * @author sebastian.rubio
 	 *
@@ -99,7 +99,6 @@ public class FlightInformationPage extends BasePage {
 
 	public FlightCheckoutPage setContinueBooking() {
 		continueBookingBtn.click();
-		//getWait().until(ExpectedConditions.invisibilityOf(spinerLoader));
 		return new FlightCheckoutPage(this.getDriver());
 	}
 

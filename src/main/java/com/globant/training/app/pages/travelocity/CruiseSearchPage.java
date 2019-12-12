@@ -216,7 +216,13 @@ public class CruiseSearchPage extends BasePage {
 	public void setDepartureCitySelected(String departureCitySelected) {
 		this.departureCitySelected = departureCitySelected;
 	}
-
+	
+	/**
+	 * @author sebastian.rubio
+	 *
+	 * @description: Obtains the highest promotion from all cruise fares 
+	 * @return String
+	 */
 	public String getHighestPromo() {
 		String totalFares = "//section[@role='main']/div[3]/div";
 		int promotion = 0;
